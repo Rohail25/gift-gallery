@@ -3,9 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { Heart, Star, Share2, Truck, Check } from "lucide-react";
-import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
+import { useCart } from "@/components/CartProvider";
+import { useWishlist } from "@/components/WishlistProvider";
 
 interface Product {
   id: number;
@@ -25,8 +27,8 @@ interface Product {
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const router = useRouter();
-  const { data: session } = useSession();
+  const { addToCart } = useCart();
+  const { isInWishlist, toggle } = useWishlist();
   const slug = params.slug as string;
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -55,12 +57,9 @@ export default function ProductDetailPage() {
   }, [slug]);
 
   const handleAddToCart = async () => {
-    if (!session) {
-      router.push("/auth/login");
-      return;
-    }
+    if (!product) return;
 
-    if (quantity < 1 || quantity > product!.stock_quantity) {
+    if (quantity < 1 || quantity > product.stock_quantity) {
       setCartMessage("Invalid quantity");
       return;
     }
@@ -68,31 +67,17 @@ export default function ProductDetailPage() {
     setAddingToCart(true);
     setCartMessage("");
 
-    try {
-      const res = await fetch("/api/cart", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          productId: product!.id,
-          quantity,
-        }),
-      });
+    const result = await addToCart(product.id, quantity);
 
-      const data = await res.json();
-
-      if (res.ok) {
-        setCartMessage("✓ Added to cart");
-        setTimeout(() => {
-          setCartMessage("");
-        }, 2000);
-      } else {
-        setCartMessage(data.error || "Failed to add to cart");
-      }
-    } catch {
-      setCartMessage("An error occurred");
-    } finally {
-      setAddingToCart(false);
+    if (result.ok) {
+      setCartMessage("✓ Added to cart");
+      setTimeout(() => {
+        setCartMessage("");
+      }, 2000);
+    } else {
+      setCartMessage(result.error || "Failed to add to cart");
     }
+    setAddingToCart(false);
   };
 
   if (loading) {
@@ -133,6 +118,8 @@ export default function ProductDetailPage() {
   const discount = product.sale_price
     ? Math.round(((product.regular_price - product.sale_price) / product.regular_price) * 100)
     : 0;
+
+  const wished = isInWishlist(product.id);
 
   return (
     <div className="min-h-screen bg-bg-primary">
@@ -314,8 +301,17 @@ export default function ProductDetailPage() {
               </button>
 
               <div className="flex gap-3">
-                <button className="flex-1 py-3 px-6 border-2 border-gold-primary text-gold-primary font-medium rounded-lg hover:bg-gold-primary hover:text-white transition">
-                  <Heart className="w-5 h-5 mx-auto" />
+                <button
+                  onClick={() => toggle(product.id)}
+                  className={cn(
+                    "flex-1 py-3 px-6 border-2 font-medium rounded-lg transition flex items-center justify-center gap-2",
+                    wished
+                      ? "border-rose-gold bg-rose-gold text-white"
+                      : "border-gold-primary text-gold-primary hover:bg-gold-primary hover:text-white"
+                  )}
+                >
+                  <Heart className={cn("w-5 h-5", wished && "fill-current")} />
+                  {wished ? "Saved" : "Add to Wishlist"}
                 </button>
                 <button className="flex-1 py-3 px-6 border-2 border-gold-primary text-gold-primary font-medium rounded-lg hover:bg-gold-primary hover:text-white transition">
                   <Share2 className="w-5 h-5 mx-auto" />

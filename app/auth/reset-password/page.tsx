@@ -58,35 +58,20 @@ function ResetPasswordForm() {
 
     const otpString = otp.join("");
 
+    if (otpString.length !== 6) {
+      setMessage("Please enter the 6-digit code");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // First verify OTP
-      const verifyRes = await fetch("/api/auth/verify-otp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email || "",
-          otp: otpString,
-          purpose: "forgot_password",
-        }),
-      });
-
-      const verifyData = await verifyRes.json();
-
-      if (!verifyRes.ok) {
-        setMessage(verifyData.error || "Invalid OTP");
-        setOtp(["", "", "", "", "", ""]);
-        const firstInput = document.getElementById("otp-0");
-        if (firstInput) (firstInput as HTMLInputElement).focus();
-        setLoading(false);
-        return;
-      }
-
-      // OTP verified, now reset password
+      // Verify OTP and reset the password in a single request
       const resetRes = await fetch("/api/auth/reset-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: email || "",
+          otp: otpString,
           password: password,
         }),
       });
@@ -101,6 +86,9 @@ function ResetPasswordForm() {
         }, 2000);
       } else {
         setMessage(resetData.error || "Password reset failed");
+        setOtp(["", "", "", "", "", ""]);
+        const firstInput = document.getElementById("otp-0");
+        if (firstInput) (firstInput as HTMLInputElement).focus();
       }
     } catch {
       setMessage("An unexpected error occurred");

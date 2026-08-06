@@ -1,15 +1,24 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { User, Package, Heart, MapPin, Bell, Settings, LogOut, ChevronRight } from "lucide-react";
 
 export default function AccountDashboardPage() {
+  return (
+    <Suspense fallback={null}>
+      <AccountContent />
+    </Suspense>
+  );
+}
+
+function AccountContent() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("orders");
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") || "orders");
 
   useEffect(() => {
     if (status === "unauthenticated") {

@@ -145,12 +145,24 @@ export async function PUT(req: Request) {
     });
 
     // Send notification email
-    if (newStatus && ["confirmed", "on_the_way", "delivered"].includes(newStatus)) {
+    if (newStatus === "delivered") {
       const template = emailTemplates.orderDelivered(order.order_number, existingOrder.user.full_name);
       await sendMail({
         to: existingOrder.user.email,
         subject: template.subject,
         html: template.html,
+      }).catch(() => {});
+    }
+
+    // Email the customer the delivery OTP (no expiry) once the parcel is picked up
+    if (newStatus === "picked_up" || newStatus === "on_the_way") {
+      const { sendDeliveryOtpEmail } = await import("@/lib/delivery-otp");
+      sendDeliveryOtpEmail({
+        id: existingOrder.id,
+        user_id: existingOrder.user_id,
+        order_number: existingOrder.order_number,
+        grand_total: existingOrder.grand_total,
+        user: { email: existingOrder.user.email, full_name: existingOrder.user.full_name },
       }).catch(() => {});
     }
 

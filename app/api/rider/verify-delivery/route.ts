@@ -24,17 +24,27 @@ export async function POST(req: Request) {
 
     const { orderId, otp } = VerifyDeliverySchema.parse(await req.json());
 
+    const assignment = await prisma.orderRiderAssignment.findFirst({
+      where: { order_id: orderId, rider_user_id: rider.id },
+      orderBy: { assigned_at: "desc" },
+    });
+
+    if (!assignment) {
+      return NextResponse.json({ error: "This order is not assigned to you" }, { status: 403 });
+    }
+
+    // Delivery OTPs have no expiry; they stay valid until verified or replaced
     const deliveryOtp = await prisma.deliveryOtp.findFirst({
       where: {
         order_id: orderId,
-        expires_at: { gte: new Date() },
         verified_at: null,
+        invalidated_at: null,
       },
       orderBy: { created_at: "desc" },
     });
 
     if (!deliveryOtp) {
-      return NextResponse.json({ error: "OTP expired or invalid" }, { status: 400 });
+      return NextResponse.json({ error: "No valid OTP found. Ask the admin to generate one." }, { status: 400 });
     }
 
     const isMatch = await compare(otp, deliveryOtp.otp_hash);

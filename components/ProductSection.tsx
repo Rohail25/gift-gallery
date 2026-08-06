@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { ProductCard, ProductCardProduct } from "@/components/ProductCard";
 import { ProductCardSkeleton } from "@/components/ProductCardSkeleton";
+import { useCart } from "@/components/CartProvider";
 
 type ProductSectionProps = {
   eyebrow: string;
@@ -31,6 +32,7 @@ export function ProductSection({
 }: ProductSectionProps) {
   const [products, setProducts] = useState<ProductCardProduct[]>([]);
   const [loading, setLoading] = useState(true);
+  const { addToCart } = useCart();
   const paramsKey = JSON.stringify(params);
 
   useEffect(() => {
@@ -94,7 +96,12 @@ export function ProductSection({
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} badge={badge} />
+              <ProductCard
+                key={product.id}
+                product={product}
+                badge={badge}
+                onAddToCart={() => addToCart(product.id)}
+              />
             ))}
           </div>
         )}

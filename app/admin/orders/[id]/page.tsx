@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { ArrowLeft, MapPin, Package, CreditCard, Truck } from "lucide-react";
+import { ArrowLeft, MapPin, Package, CreditCard, Truck, MessageSquareText } from "lucide-react";
 
 interface OrderDetail {
   id: number;
@@ -54,6 +54,29 @@ interface OrderDetail {
     created_at: string;
     changed_by_user?: { full_name: string } | null;
   }>;
+  orderRiderAssignments: Array<{
+    id: number;
+    status: string;
+    assigned_at: string;
+    accepted_at?: string | null;
+    picked_up_at?: string | null;
+    completed_at?: string | null;
+    rider_user: { full_name: string; phone?: string | null };
+  }>;
+  deliveryOtps: Array<{
+    id: number;
+    expires_at: string;
+    attempt_count: number;
+    verified_at?: string | null;
+    invalidated_at?: string | null;
+    created_at: string;
+  }>;
+}
+
+interface RiderOption {
+  id: number;
+  full_name: string;
+  phone?: string | null;
 }
 
 export default function AdminOrderDetailPage() {
@@ -61,6 +84,11 @@ export default function AdminOrderDetailPage() {
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
+  const [riders, setRiders] = useState<RiderOption[]>([]);
+  const [selectedRider, setSelectedRider] = useState("");
+  const [actionLoading, setActionLoading] = useState(false);
+  const [actionMessage, setActionMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   useEffect(() => {
     if (!params.id) return;
@@ -77,7 +105,7 @@ export default function AdminOrderDetailPage() {
           }
           setOrder(data.data);
         }
-      } catch (error) {
+      } catch {
         if (!cancelled) setError("An error occurred");
       } finally {
         if (!cancelled) setLoading(false);
@@ -88,7 +116,110 @@ export default function AdminOrderDetailPage() {
     return () => {
       cancelled = true;
     };
-  }, [params.id]);
+  }, [params.id, reloadKey]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadRiders() {
+      try {
+        const res = await fetch("/api/admin/riders?limit=100");
+        const data = await res.json();
+        if (!cancelled) {
+          setRiders(data.data || []);
+          if (data.data?.length === 1) setSelectedRider(String(data.data[0].id));
+        }
+      } catch (error) {
+        console.error("Error fetching riders:", error);
+      }
+    }
+
+    loadRiders();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const reload = () => setReloadKey((k) => k + 1);
+
+  const handleAssignRider = async () => {
+    if (!order || !selectedRider) return;
+    setActionLoading(true);
+    setActionMessage(null);
+
+    try {
+      const res = await fetch("/api/rider/assign", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId: order.id, riderUserId: parseInt(selectedRider) }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setActionMessage({ type: "success", text: "Rider assigned successfully" });
+        reload();
+      } else {
+        setActionMessage({ type: "error", text: data.error || "Failed to assign rider" });
+      }
+    } catch {
+      setActionMessage({ type: "error", text: "An error occurred" });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleSendOtp = async () => {
+    if (!order) return;
+    setActionLoading(true);
+    setActionMessage(null);
+
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/delivery-otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setActionMessage({ type: "success", text: "Delivery OTP sent to customer email" });
+        reload();
+      } else {
+        setActionMessage({ type: "error", text: data.error || "Failed to send OTP" });
+      }
+    } catch {
+      setActionMessage({ type: "error", text: "An error occurred" });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleMarkDelivered = async () => {
+    if (!order) return;
+    if (!confirm("Mark this order as delivered? This will record payment as paid.")) return;
+    setActionLoading(true);
+    setActionMessage(null);
+
+    try {
+      const res = await fetch(`/api/admin/orders/${order.id}/mark-delivered`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        setActionMessage({ type: "success", text: data.message || "Order marked as delivered" });
+        reload();
+      } else {
+        setActionMessage({ type: "error", text: data.error || "Failed to update order" });
+      }
+    } catch {
+      setActionMessage({ type: "error", text: "An error occurred" });
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const latestOtp = order?.deliveryOtps?.[0] || null;
 
   if (loading) {
     return (
@@ -305,6 +436,146 @@ export default function AdminOrderDetailPage() {
                 </p>
               </div>
             </div>
+          </div>
+
+          <div className="bg-bg-card rounded-lg border border-border-custom p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <Truck className="w-5 h-5 text-gold-primary shrink-0" />
+              <h2 className="text-lg font-luxury text-text-primary">Delivery &amp; Rider</h2>
+            </div>
+
+            {order.orderRiderAssignments && order.orderRiderAssignments.length > 0 ? (
+              <div className="space-y-3">
+                {order.orderRiderAssignments.map((assignment) => (
+                  <div key={assignment.id} className="border border-border-custom rounded-lg p-3">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-medium text-text-primary">
+                        {assignment.rider_user.full_name}
+                      </p>
+                      <span
+                        className={`px-2 py-0.5 text-xs font-medium rounded-full ${
+                          assignment.status === "completed"
+                            ? "bg-green-100 text-green-800"
+                            : assignment.status === "picked_up"
+                            ? "bg-teal-100 text-teal-800"
+                            : assignment.status === "accepted"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-cyan-100 text-cyan-800"
+                        }`}
+                      >
+                        {assignment.status.replace(/_/g, " ")}
+                      </span>
+                    </div>
+                    {assignment.rider_user.phone && (
+                      <p className="text-xs text-text-secondary mt-1">
+                        {assignment.rider_user.phone}
+                      </p>
+                    )}
+                    <p className="text-xs text-text-secondary mt-1">
+                      Assigned: {new Date(assignment.assigned_at).toLocaleString()}
+                    </p>
+                    {assignment.accepted_at && (
+                      <p className="text-xs text-text-secondary">
+                        Accepted: {new Date(assignment.accepted_at).toLocaleString()}
+                      </p>
+                    )}
+                    {assignment.picked_up_at && (
+                      <p className="text-xs text-text-secondary">
+                        Picked up: {new Date(assignment.picked_up_at).toLocaleString()}
+                      </p>
+                    )}
+                    {assignment.completed_at && (
+                      <p className="text-xs text-text-secondary">
+                        Completed: {new Date(assignment.completed_at).toLocaleString()}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <p className="text-sm text-text-secondary">No rider assigned yet.</p>
+                <select
+                  value={selectedRider}
+                  onChange={(e) => setSelectedRider(e.target.value)}
+                  className="w-full px-3 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white text-sm"
+                >
+                  <option value="">Select a rider...</option>
+                  {riders.map((rider) => (
+                    <option key={rider.id} value={rider.id}>
+                      {rider.full_name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  onClick={handleAssignRider}
+                  disabled={actionLoading || !selectedRider}
+                  className="w-full py-2 bg-gold-primary text-white rounded-lg text-sm font-medium hover:bg-gold-dark transition disabled:opacity-50"
+                >
+                  Assign Rider
+                </button>
+              </div>
+            )}
+
+            <div className="mt-4 pt-4 border-t border-border-custom">
+              <div className="flex items-center gap-2 mb-2">
+                <MessageSquareText className="w-4 h-4 text-gold-primary" />
+                <h3 className="text-sm font-medium text-text-primary">Delivery OTP</h3>
+              </div>
+              {latestOtp ? (
+                <div className="space-y-1 text-xs text-text-secondary">
+                  {latestOtp.verified_at ? (
+                    <p className="text-green-700 font-medium">
+                      Verified {new Date(latestOtp.verified_at).toLocaleString()}
+                    </p>
+                  ) : latestOtp.invalidated_at ? (
+                    <p className="text-text-secondary">
+                      Replaced {new Date(latestOtp.invalidated_at).toLocaleString()}
+                    </p>
+                  ) : (
+                    <p className="font-medium text-text-primary">Active — no expiry</p>
+                  )}
+                  <p>Sent: {new Date(latestOtp.created_at).toLocaleString()}</p>
+                  <p>Failed attempts: {latestOtp.attempt_count}</p>
+                </div>
+              ) : (
+                <p className="text-xs text-text-secondary">
+                  No OTP sent yet. It is emailed to the customer automatically when the parcel is
+                  picked up.
+                </p>
+              )}
+
+              <div className="mt-3 space-y-2">
+                <button
+                  onClick={handleSendOtp}
+                  disabled={actionLoading || order.order_status === "delivered"}
+                  className="w-full py-2 border border-gold-primary text-gold-primary rounded-lg text-sm font-medium hover:bg-gold-primary hover:text-white transition disabled:opacity-50"
+                >
+                  {latestOtp ? "Resend OTP Email" : "Send OTP Email"}
+                </button>
+                {order.order_status !== "delivered" && (
+                  <button
+                    onClick={handleMarkDelivered}
+                    disabled={actionLoading}
+                    className="w-full py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition disabled:opacity-50"
+                  >
+                    Mark as Delivered
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {actionMessage && (
+              <p
+                className={`mt-3 text-xs rounded-lg p-2 ${
+                  actionMessage.type === "success"
+                    ? "bg-green-50 text-green-800"
+                    : "bg-red-50 text-red-800"
+                }`}
+              >
+                {actionMessage.text}
+              </p>
+            )}
           </div>
 
           <div className="bg-bg-card rounded-lg border border-border-custom p-6">

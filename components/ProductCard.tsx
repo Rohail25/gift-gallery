@@ -1,10 +1,12 @@
 // components/ProductCard.tsx
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Eye, Heart, ShoppingBag, Star } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useWishlist } from "@/components/WishlistProvider";
 
 type ProductImage = { image_url: string; is_primary?: boolean };
 
@@ -25,9 +27,10 @@ export type ProductCardProduct = {
 
 type ProductCardProps = {
   product: ProductCardProduct;
-  onAddToCart?: (product: ProductCardProduct) => void;
+  onAddToCart?: (
+    product: ProductCardProduct
+  ) => void | Promise<{ ok: boolean; error?: string } | void>;
   onQuickView?: (product: ProductCardProduct) => void;
-  onWishlist?: (product: ProductCardProduct) => void;
   badge?: "new" | "sale" | "featured" | "best-seller" | null;
   className?: string;
 };
@@ -38,10 +41,11 @@ export const ProductCard = ({
   product,
   onAddToCart,
   onQuickView,
-  onWishlist,
   badge,
   className,
 }: ProductCardProps) => {
+  const { isInWishlist, toggle } = useWishlist();
+  const [added, setAdded] = useState(false);
   const images = product.images || [];
   const primary = images.find((img) => img.is_primary) || images[0];
   const secondary = images.find((img) => img !== primary) || primary;
@@ -53,6 +57,15 @@ export const ProductCard = ({
         )
       : 0;
   const outOfStock = (product.stock_quantity ?? 0) <= 0;
+  const wished = isInWishlist(product.id);
+
+  const handleAddToCart = async () => {
+    const result = await onAddToCart?.(product);
+    if (result?.ok !== false) {
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1500);
+    }
+  };
 
   const isNew =
     !!product.created_at && new Date(product.created_at).getTime() > NEW_PRODUCT_CUTOFF;
@@ -127,12 +140,17 @@ export const ProductCard = ({
           <button
             onClick={(e) => {
               e.preventDefault();
-              onWishlist?.(product);
+              toggle(product.id);
             }}
-            aria-label="Add to wishlist"
-            className="p-2 rounded-full bg-bg-card/90 text-rose-gold shadow-sm hover:bg-rose-gold hover:text-white transition"
+            aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+            className={cn(
+              "p-2 rounded-full shadow-sm transition",
+              wished
+                ? "bg-rose-gold text-white"
+                : "bg-bg-card/90 text-rose-gold hover:bg-rose-gold hover:text-white"
+            )}
           >
-            <Heart className="w-4 h-4" />
+            <Heart className={cn("w-4 h-4", wished && "fill-current")} />
           </button>
           <button
             onClick={(e) => {
@@ -178,12 +196,12 @@ export const ProductCard = ({
         </div>
 
         <button
-          onClick={() => onAddToCart?.(product)}
+          onClick={handleAddToCart}
           disabled={outOfStock}
           className="mt-3 w-full inline-flex items-center justify-center gap-2 py-2.5 rounded-lg bg-gold-primary text-white text-sm font-medium hover:bg-gold-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <ShoppingBag className="w-4 h-4" />
-          {outOfStock ? "Out of Stock" : "Add to Cart"}
+          {outOfStock ? "Out of Stock" : added ? "Added ✓" : "Add to Cart"}
         </button>
       </div>
     </div>

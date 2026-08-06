@@ -15,6 +15,7 @@ export async function GET(req: Request) {
     const search = searchParams.get("search") || "";
     const categoryId = searchParams.get("category");
     const giftTypeId = searchParams.get("giftType");
+    const idsParam = searchParams.get("ids");
     const sort = searchParams.get("sort") || "newest";
     const featured = searchParams.get("featured");
     const minPrice = searchParams.get("minPrice");
@@ -34,15 +35,42 @@ export async function GET(req: Request) {
       ];
     }
 
-    // Category filter
-    if (categoryId) {
-      where.product_category_id = parseInt(categoryId);
+    // Explicit id list (used by wishlist/favourites)
+    if (idsParam) {
+      const ids = idsParam
+        .split(",")
+        .map((s) => parseInt(s.trim()))
+        .filter((n) => Number.isInteger(n) && n > 0);
+      if (ids.length > 0) {
+        where.id = { in: ids };
+      }
     }
 
-    // Gift Type filter (through category)
+    // Category filter: accepts a numeric id or a slug
+    if (categoryId) {
+      let categoryKey = parseInt(categoryId);
+      if (!Number.isInteger(categoryKey)) {
+        const category = await prisma.productCategory.findUnique({
+          where: { slug: categoryId },
+          select: { id: true },
+        });
+        categoryKey = category?.id ?? -1;
+      }
+      where.product_category_id = categoryKey;
+    }
+
+    // Gift Type filter: accepts a numeric id or a slug
     if (giftTypeId) {
+      let giftTypeKey = parseInt(giftTypeId);
+      if (!Number.isInteger(giftTypeKey)) {
+        const giftType = await prisma.giftType.findUnique({
+          where: { slug: giftTypeId },
+          select: { id: true },
+        });
+        giftTypeKey = giftType?.id ?? -1;
+      }
       where.product_category = {
-        giftTypes: { some: { gift_type_id: parseInt(giftTypeId) } },
+        giftTypes: { some: { gift_type_id: giftTypeKey } },
       };
     }
 
@@ -74,32 +102,31 @@ export async function GET(req: Request) {
     }
 
     // Sorting
-    const orderBy: Prisma.ProductOrderByWithRelationInput = {};
+    const orderBy: Prisma.ProductOrderByWithRelationInput[] = [];
     switch (sort) {
       case "price-low":
-        orderBy.regular_price = "asc";
+        orderBy.push({ regular_price: "asc" });
         break;
       case "price-high":
-        orderBy.regular_price = "desc";
+        orderBy.push({ regular_price: "desc" });
         break;
       case "name-asc":
-        orderBy.name = "asc";
+        orderBy.push({ name: "asc" });
         break;
       case "name-desc":
-        orderBy.name = "desc";
+        orderBy.push({ name: "desc" });
         break;
       case "popular":
-        orderBy.reviews_count = "desc";
+        orderBy.push({ reviews_count: "desc" });
         break;
       case "recommended":
-        orderBy.average_rating = "desc";
-        orderBy.reviews_count = "desc";
+        orderBy.push({ average_rating: "desc" }, { reviews_count: "desc" });
         break;
       case "best-selling":
-        orderBy.created_at = "desc";
+        orderBy.push({ created_at: "desc" });
         break;
       default:
-        orderBy.created_at = "desc";
+        orderBy.push({ created_at: "desc" });
     }
 
     const [products, total] = await Promise.all([

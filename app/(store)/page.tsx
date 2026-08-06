@@ -51,17 +51,19 @@ export default function HomePage() {
       <HeroSlider />
 
       {/* 2. Shop by Gift Events */}
-      <GiftEventsSection events={giftTypes} />
+      <GiftEventsSection events={giftTypes} limit={4} />
 
       {/* 3. Shop by Categories */}
-      <CategoriesSection categories={categories} />
+      <CategoriesSection categories={categories} limit={4} />
 
       {/* 4. Latest Products */}
       <ProductSection
         eyebrow="Fresh From The Studio"
         title="Latest Products"
         subtitle="The newest additions to our luxury collection"
-        params={{ sort: "newest", limit: "8" }}
+        params={{ sort: "newest" }}
+        limit={4}
+        count={4}
         badge="new"
         bg="bg-bg-primary"
       />
@@ -74,7 +76,9 @@ export default function HomePage() {
         eyebrow="Customer Favorites"
         title="Best Selling Products"
         subtitle="The gifts everyone is loving right now"
-        params={{ sort: "best-selling", limit: "8" }}
+        params={{ sort: "best-selling" }}
+        limit={4}
+        count={4}
         badge="best-seller"
         bg="bg-bg-secondary"
       />
@@ -84,7 +88,9 @@ export default function HomePage() {
         eyebrow="Handpicked For You"
         title="Featured Products"
         subtitle="Our team's personal favourites, curated with care"
-        params={{ featured: "true", limit: "8" }}
+        params={{ featured: "true" }}
+        limit={4}
+        count={4}
         badge="featured"
         bg="bg-bg-primary"
       />
@@ -94,7 +100,9 @@ export default function HomePage() {
         eyebrow="Just Landed"
         title="New Arrivals"
         subtitle="Be the first to discover what's new in store"
-        params={{ sort: "newest", limit: "8" }}
+        params={{ sort: "newest" }}
+        limit={4}
+        count={4}
         badge="new"
         bg="bg-bg-secondary"
       />
@@ -104,7 +112,9 @@ export default function HomePage() {
         eyebrow="Most Reviewed"
         title="Popular Products"
         subtitle="Loved and reviewed by customers across the country"
-        params={{ sort: "popular", limit: "8" }}
+        params={{ sort: "popular" }}
+        limit={4}
+        count={4}
         bg="bg-bg-primary"
       />
 
@@ -113,7 +123,9 @@ export default function HomePage() {
         eyebrow="Tailored Picks"
         title="Recommended For You"
         subtitle="Highly-rated gifts our experts recommend"
-        params={{ sort: "recommended", limit: "8" }}
+        params={{ sort: "recommended" }}
+        limit={4}
+        count={4}
         bg="bg-bg-secondary"
       />
 

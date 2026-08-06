@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { SlidersHorizontal, X } from "lucide-react";
 import { ProductCard, type ProductCardProduct } from "@/components/ProductCard";
+import { useCart } from "@/components/CartProvider";
 
 interface GiftType {
   id: number;
@@ -29,8 +28,7 @@ export default function ShopPage() {
 
 function ShopContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const { data: session } = useSession();
+  const { addToCart } = useCart();
   const [products, setProducts] = useState<ProductCardProduct[]>([]);
   const [giftTypes, setGiftTypes] = useState<GiftType[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
@@ -40,20 +38,21 @@ function ShopContent() {
   const [search, setSearch] = useState("");
   const [selectedGiftType, setSelectedGiftType] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [featured, setFeatured] = useState(false);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 100000 });
   const [sort, setSort] = useState("newest");
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [prevParams, setPrevParams] = useState(() => searchParams.toString());
+  const [prevParams, setPrevParams] = useState("");
 
-  // Sync filter state from URL search params when they change
+  // Sync filter state from URL search params (applies on first load too)
   if (prevParams !== searchParams.toString()) {
     setPrevParams(searchParams.toString());
-    const giftType = searchParams.get("giftType");
-    const category = searchParams.get("category");
-    const searchQuery = searchParams.get("search");
-    if (giftType) setSelectedGiftType(giftType);
-    if (category) setSelectedCategory(category);
-    if (searchQuery) setSearch(searchQuery);
+    setSelectedGiftType(searchParams.get("giftType"));
+    setSelectedCategory(searchParams.get("category"));
+    setSearch(searchParams.get("search") || "");
+    setSort(searchParams.get("sort") || "newest");
+    setFeatured(searchParams.get("featured") === "true");
+    setPage(1);
   }
 
   // Fetch gift types and categories
@@ -90,6 +89,7 @@ function ShopContent() {
         if (search) params.append("search", search);
         if (selectedGiftType) params.append("giftType", selectedGiftType);
         if (selectedCategory) params.append("category", selectedCategory);
+        if (featured) params.append("featured", "true");
         if (priceRange.min > 0) params.append("minPrice", priceRange.min.toString());
         if (priceRange.max < 100000) params.append("maxPrice", priceRange.max.toString());
         params.append("sort", sort);
@@ -107,11 +107,12 @@ function ShopContent() {
     };
 
     fetchProducts();
-  }, [page, search, selectedGiftType, selectedCategory, priceRange, sort]);
+  }, [page, search, selectedGiftType, selectedCategory, featured, priceRange, sort]);
 
   const handleResetFilters = () => {
     setSelectedGiftType(null);
     setSelectedCategory(null);
+    setFeatured(false);
     setPriceRange({ min: 0, max: 100000 });
     setSearch("");
     setSort("newest");
@@ -119,18 +120,9 @@ function ShopContent() {
   };
 
   const handleAddToCart = async (product: ProductCardProduct) => {
-    if (!session) {
-      router.push("/auth/login");
-      return;
-    }
-    const res = await fetch("/api/cart", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId: product.id, quantity: 1 }),
-    });
-    if (!res.ok) {
-      const data = await res.json();
-      alert(data.error || "Failed to add to cart");
+    const result = await addToCart(product.id);
+    if (!result.ok && result.error) {
+      alert(result.error);
     }
   };
 
@@ -193,8 +185,8 @@ function ShopContent() {
               <input
                 type="radio"
                 name="category"
-                value={cat.slug}
-                checked={selectedCategory === cat.slug}
+                value={cat.id}
+                checked={selectedCategory === String(cat.id)}
                 onChange={(e) => {
                   setSelectedCategory(e.target.value);
                   setPage(1);

@@ -35,3 +35,12 @@ export function getOtpExpiry(minutes: number = 10): Date {
 export function getDeliveryOtpExpiry(): Date {
   return new Date(Date.now() + 3 * 60 * 60 * 1000);
 }
+
+/**
+ * Delivery OTPs have no expiry by design. We store a far-future date
+ * so the column keeps its DateTime type while the code treats the OTP
+ * as valid until it is verified or invalidated.
+ */
+export function getNoExpiryOtpExpiry(): Date {
+  return new Date(Date.now() + 100 * 365 * 24 * 60 * 60 * 1000);
+}

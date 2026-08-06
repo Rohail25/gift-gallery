@@ -253,7 +253,7 @@ export const emailTemplates = {
               <div class="otp-box">
                 <div style="color: #8D7463; font-size: 14px; margin-bottom: 10px;">Delivery Verification Code</div>
                 <div class="otp">${otp}</div>
-                <div style="color: #8D7463; font-size: 14px; margin-top: 10px;">Valid for 3 hours</div>
+                <div style="color: #8D7463; font-size: 14px; margin-top: 10px;">No expiry - valid until delivery</div>
               </div>
               <div class="warning">
                 <strong>⚠️ Important:</strong> Only share this OTP with the delivery rider AFTER you have received and inspected your order. Do not share this code with anyone before delivery.

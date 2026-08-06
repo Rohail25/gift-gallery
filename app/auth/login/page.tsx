@@ -40,7 +40,11 @@ export default function LoginPage() {
         const session = await getSession();
         const role = session?.user?.role;
         const isStaff = role && role !== "CUSTOMER";
-        router.push(isStaff ? "/admin" : "/");
+        if (role === "RIDER") {
+          router.push("/rider");
+        } else {
+          router.push(isStaff ? "/admin" : "/");
+        }
         router.refresh();
       }
     } catch {

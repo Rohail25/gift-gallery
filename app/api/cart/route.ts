@@ -19,64 +19,64 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Get or create active cart
-    let cart = await prisma.cart.findFirst({
-      where: { user_id: user.id, status: "active" },
+    return NextResponse.json({ data: await getUserCart(user.id) });
+  } catch (error) {
+    return handleApiError(error);
+  }
+}
+
+async function getUserCart(userId: number) {
+  let cart = await prisma.cart.findFirst({
+    where: { user_id: userId, status: "active" },
+    include: {
+      items: {
+        include: {
+          product: {
+            include: {
+              images: {
+                where: { is_visible: true },
+                orderBy: [{ is_primary: "desc" }, { sort_order: "asc" }],
+                take: 2,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  if (!cart) {
+    cart = await prisma.cart.create({
+      data: { user_id: userId, status: "active" },
       include: {
         items: {
           include: {
             product: {
               include: {
-                images: {
-                  where: { is_visible: true },
-                  orderBy: [{ is_primary: "desc" }, { sort_order: "asc" }],
-                  take: 2,
-                },
+                images: true,
               },
             },
           },
         },
       },
     });
-
-    if (!cart) {
-      cart = await prisma.cart.create({
-        data: { user_id: user.id, status: "active" },
-        include: {
-          items: {
-            include: {
-              product: {
-                include: {
-                  images: true,
-                },
-              },
-            },
-          },
-        },
-      });
-    }
-
-    // Calculate totals
-    let subtotal = 0;
-    const items = cart.items.map((item) => {
-      const price =
-        item.product.sale_price ?? item.product.regular_price;
-      const lineTotal = price.toNumber() * item.quantity;
-      subtotal += lineTotal;
-      return { ...item, line_total: lineTotal };
-    });
-
-    return NextResponse.json({
-      data: {
-        ...cart,
-        items,
-        subtotal,
-        itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
-      },
-    });
-  } catch (error) {
-    return handleApiError(error);
   }
+
+  // Calculate totals
+  let subtotal = 0;
+  const items = cart.items.map((item) => {
+    const price = item.product.sale_price ?? item.product.regular_price;
+    const lineTotal = price.toNumber() * item.quantity;
+    subtotal += lineTotal;
+    return { ...item, line_total: lineTotal };
+  });
+
+  return {
+    ...cart,
+    items,
+    subtotal,
+    itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
+  };
 }
 
 export async function POST(req: Request) {
@@ -218,7 +218,7 @@ export async function PUT(req: Request) {
       });
     }
 
-    return NextResponse.json({ message: "Cart updated" });
+    return NextResponse.json({ data: await getUserCart(user.id) });
   } catch (error) {
     return handleApiError(error);
   }
@@ -256,7 +256,7 @@ export async function DELETE(req: Request) {
       });
     }
 
-    return NextResponse.json({ message: "Cart cleared" });
+    return NextResponse.json({ data: await getUserCart(user.id) });
   } catch (error) {
     return handleApiError(error);
   }

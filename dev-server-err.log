@@ -188,3 +188,2499 @@ https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
   161 |                     {pkg.status}
 [browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
 [browser] Image with src "/uploads/1786028920636-64566840fbb6.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              created_at: "desc"
+            },
+            skip: 0,
+            take: 12
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Image with src "/uploads/1786033817703-0c960214bbdf.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: {
+              average_rating: "desc",
+              reviews_count: "desc"
+            },
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput[], provided Object.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+API Error: Error [PrismaClientValidationError]: 
+Invalid `prisma.product.findMany()` invocation:
+
+{
+  where: {
+    status: "active",
+    is_visible: true
+  },
+  include: {
+    images: {
+      where: {
+        is_visible: true
+      },
+      orderBy: [
+        {
+          is_primary: "desc"
+        },
+        {
+          sort_order: "asc"
+        }
+      ],
+      take: 5
+    },
+    product_category: {
+      include: {
+        giftTypes: {
+          include: {
+            gift_type: true
+          }
+        }
+      }
+    }
+  },
+  orderBy: [
+    {
+      average_rating: "desc",
+      reviews_count: "desc"
+    }
+  ],
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  skip: 0,
+  take: 8
+}
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at async GET (app\api\products\route.ts:105:31)
+  103 |     }
+  104 |
+> 105 |     const [products, total] = await Promise.all([
+      |                               ^
+  106 |       prisma.product.findMany({
+  107 |         where,
+  108 |         include: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `prisma.product.findMany()` invocation:
+
+{
+  where: {
+    status: "active",
+    is_visible: true
+  },
+  include: {
+    images: {
+      where: {
+        is_visible: true
+      },
+      orderBy: [
+        {
+          is_primary: "desc"
+        },
+        {
+          sort_order: "asc"
+        }
+      ],
+      take: 5
+    },
+    product_category: {
+      include: {
+        giftTypes: {
+          include: {
+            gift_type: true
+          }
+        }
+      }
+    }
+  },
+  orderBy: [
+    {
+      average_rating: "desc",
+      reviews_count: "desc"
+    }
+  ],
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  skip: 0,
+  take: 8
+}
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at async GET (app\api\products\route.ts:105:31)
+  103 |     }
+  104 |
+> 105 |     const [products, total] = await Promise.all([
+      |                               ^
+  106 |       prisma.product.findMany({
+  107 |         where,
+  108 |         include: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `prisma.product.findMany()` invocation:
+
+{
+  where: {
+    status: "active",
+    is_visible: true
+  },
+  include: {
+    images: {
+      where: {
+        is_visible: true
+      },
+      orderBy: [
+        {
+          is_primary: "desc"
+        },
+        {
+          sort_order: "asc"
+        }
+      ],
+      take: 5
+    },
+    product_category: {
+      include: {
+        giftTypes: {
+          include: {
+            gift_type: true
+          }
+        }
+      }
+    }
+  },
+  orderBy: [
+    {
+      average_rating: "desc",
+      reviews_count: "desc"
+    }
+  ],
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  skip: 0,
+  take: 8
+}
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at async GET (app\api\products\route.ts:105:31)
+  103 |     }
+  104 |
+> 105 |     const [products, total] = await Promise.all([
+      |                               ^
+  106 |       prisma.product.findMany({
+  107 |         where,
+  108 |         include: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `prisma.product.findMany()` invocation:
+
+{
+  where: {
+    status: "active",
+    is_visible: true
+  },
+  include: {
+    images: {
+      where: {
+        is_visible: true
+      },
+      orderBy: [
+        {
+          is_primary: "desc"
+        },
+        {
+          sort_order: "asc"
+        }
+      ],
+      take: 5
+    },
+    product_category: {
+      include: {
+        giftTypes: {
+          include: {
+            gift_type: true
+          }
+        }
+      }
+    }
+  },
+  orderBy: [
+    {
+      average_rating: "desc",
+      reviews_count: "desc"
+    }
+  ],
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+  skip: 0,
+  take: 8
+}
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at async GET (app\api\products\route.ts:105:31)
+  103 |     }
+  104 |
+> 105 |     const [products, total] = await Promise.all([
+      |                               ^
+  106 |       prisma.product.findMany({
+  107 |         where,
+  108 |         include: { {
+  clientVersion: '7.9.1'
+}
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://images.unsplash.com/photo-1602874801006-d26c4f6a5f2f?auto=format&fit=crop&w=600&q=80 404
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                created_at: "desc"
+              }
+            ],
+            skip: 0,
+            take: 12
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                created_at: "desc"
+              }
+            ],
+            skip: 0,
+            take: 12
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                created_at: "desc"
+              }
+            ],
+            skip: 0,
+            take: 12
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                created_at: "desc"
+              }
+            ],
+            skip: 0,
+            take: 12
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                average_rating: "desc",
+                reviews_count: "desc"
+              }
+            ],
+            ~~~~~~~~~~~~~~~~~~~~~~~~~~
+            skip: 0,
+            take: 8
+          })
+
+Argument `orderBy`: Invalid value provided. Expected ProductOrderByWithRelationInput, provided (Object).
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+[browser] Image with src "/uploads/1786033817703-0c960214bbdf.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].decorPackage.findUnique()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1x4owph._.js:138:172
+
+  135 async function GET(req, { params }) {
+  136     try {
+  137         const { id } = await params;
+→ 138         const decorPackage = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].decorPackage.findUnique({
+                where: {
+              +   id: Int
+                },
+                include: {
+                  decor_category: {
+                    include: {
+                      event_type: true
+                    }
+                  },
+                  images: {
+                    orderBy: [
+                      {
+                        is_primary: "desc"
+                      },
+                      {
+                        sort_order: "asc"
+                      }
+                    ]
+                  },
+                  _count: {
+                    select: {
+                      bookings: true,
+                      reviews: true
+                    }
+                  }
+                }
+              })
+
+Argument `id` is missing.
+    at <unknown> (app\api\decor-packages\[id]\route.ts:9:52)
+    at async GET (app\api\decor-packages\[id]\route.ts:9:26)
+   7 |     const { id } = await params;
+   8 |
+>  9 |     const decorPackage = await prisma.decorPackage.findUnique({
+     |                                                    ^
+  10 |       where: { id: parseInt(id) },
+  11 |       include: {
+  12 |         decor_category: { {
+  clientVersion: '7.9.1'
+}
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].decorPackage.findUnique()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1x4owph._.js:138:172
+
+  135 async function GET(req, { params }) {
+  136     try {
+  137         const { id } = await params;
+→ 138         const decorPackage = await __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].decorPackage.findUnique({
+                where: {
+              +   id: Int
+                },
+                include: {
+                  decor_category: {
+                    include: {
+                      event_type: true
+                    }
+                  },
+                  images: {
+                    orderBy: [
+                      {
+                        is_primary: "desc"
+                      },
+                      {
+                        sort_order: "asc"
+                      }
+                    ]
+                  },
+                  _count: {
+                    select: {
+                      bookings: true,
+                      reviews: true
+                    }
+                  }
+                }
+              })
+
+Argument `id` is missing.
+    at <unknown> (app\api\decor-packages\[id]\route.ts:9:52)
+    at async GET (app\api\decor-packages\[id]\route.ts:9:26)
+   7 |     const { id } = await params;
+   8 |
+>  9 |     const decorPackage = await prisma.decorPackage.findUnique({
+     |                                                    ^
+  10 |       where: { id: parseInt(id) },
+  11 |       include: {
+  12 |         decor_category: { {
+  clientVersion: '7.9.1'
+}
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+API Error: Error [PrismaClientValidationError]: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany()` invocation in
+D:\projects\next js\gift-gallery\.next\dev\server\chunks\[root-of-the-server]__1qch359._.js:311:144
+
+  308         orderBy.created_at = "desc";
+  309 }
+  310 const [products, total] = await Promise.all([
+→ 311     __TURBOPACK__imported__module__$5b$project$5d2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].product.findMany({
+            where: {
+              status: "active",
+              is_visible: true,
+              product_category: {
+                giftTypes: {
+                  some: {
+          +         gift_type_id: {
+          +           equals: Int | IntFieldRefInput,
+          +           in: Int[],
+          +           notIn: Int[],
+          +           lt: Int | IntFieldRefInput,
+          +           lte: Int | IntFieldRefInput,
+          +           gt: Int | IntFieldRefInput,
+          +           gte: Int | IntFieldRefInput,
+          +           not: Int | NestedIntFilter
+          +         }
+                  }
+                }
+              }
+            },
+            include: {
+              images: {
+                where: {
+                  is_visible: true
+                },
+                orderBy: [
+                  {
+                    is_primary: "desc"
+                  },
+                  {
+                    sort_order: "asc"
+                  }
+                ],
+                take: 5
+              },
+              product_category: {
+                include: {
+                  giftTypes: {
+                    include: {
+                      gift_type: true
+                    }
+                  }
+                }
+              }
+            },
+            orderBy: [
+              {
+                created_at: "desc"
+              }
+            ],
+            skip: 0,
+            take: 5
+          })
+
+Argument `gift_type_id` is missing.
+    at <unknown> (app\api\products\route.ts:106:22)
+    at async GET (app\api\products\route.ts:105:31)
+  104 |
+  105 |     const [products, total] = await Promise.all([
+> 106 |       prisma.product.findMany({
+      |                      ^
+  107 |         where,
+  108 |         include: {
+  109 |           images: { {
+  clientVersion: '7.9.1'
+}
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⨯ unhandledRejection: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⨯ ReferenceError: useRouter is not defined
+    at ShopContent (app\(store)\shop\page.tsx:31:18)
+  29 | function ShopContent() {
+  30 |   const searchParams = useSearchParams();
+> 31 |   const router = useRouter();
+     |                  ^
+  32 |   const { data: session } = useSession();
+  33 |   const { addToCart } = useCart();
+  34 |   const [products, setProducts] = useState<ProductCardProduct[]>([]); {
+  digest: '3277551679'
+}
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+[browser] Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously tries to update the component. Move this work to useEffect instead. 
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Fast Refresh had to perform a full reload when ./node_modules/next/dist/client/image-component.js changed. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+⨯ unhandledRejection: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⨯ unhandledRejection: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⨯ unhandledRejection: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+⚠ Failed to reload dynamic routes: Error: You cannot use different slug names for the same dynamic path ('id' !== 'slug').
+    at ignore-listed frames
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Image with src "/uploads/1786030551878-0d25655edbcc.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+⨯ upstream image response failed for https://example.com/rose-bouquet.jpg 404

@@ -10,7 +10,13 @@ export type CategoryItem = {
   _count?: { products: number };
 };
 
-export function CategoriesSection({ categories }: { categories: CategoryItem[] }) {
+export function CategoriesSection({
+  categories,
+  limit = 4,
+}: {
+  categories: CategoryItem[];
+  limit?: number;
+}) {
   if (categories.length === 0) return null;
 
   return (
@@ -29,7 +35,7 @@ export function CategoriesSection({ categories }: { categories: CategoryItem[] }
             </p>
           </div>
           <Link
-            href="/shop"
+            href="/categories"
             className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-gold-primary hover:text-gold-dark transition group shrink-0"
           >
             View All
@@ -38,7 +44,7 @@ export function CategoriesSection({ categories }: { categories: CategoryItem[] }
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {categories.slice(0, 8).map((category) => (
+          {categories.slice(0, limit).map((category) => (
             <Link
               key={category.id}
               href={`/shop?category=${category.id}`}

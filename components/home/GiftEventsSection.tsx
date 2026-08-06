@@ -10,8 +10,16 @@ export type GiftEvent = {
   image_url?: string;
 };
 
-export function GiftEventsSection({ events }: { events: GiftEvent[] }) {
+export function GiftEventsSection({
+  events,
+  limit,
+}: {
+  events: GiftEvent[];
+  limit?: number;
+}) {
   if (events.length === 0) return null;
+
+  const visible = typeof limit === "number" ? events.slice(0, limit) : events;
 
   return (
     <section className="py-14 md:py-20 bg-bg-secondary">
@@ -29,7 +37,7 @@ export function GiftEventsSection({ events }: { events: GiftEvent[] }) {
             </p>
           </div>
           <Link
-            href="/shop"
+            href="/gift-events"
             className="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-wide text-gold-primary hover:text-gold-dark transition group shrink-0"
           >
             View All
@@ -38,7 +46,7 @@ export function GiftEventsSection({ events }: { events: GiftEvent[] }) {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {events.map((type) => (
+          {visible.map((type) => (
             <Link
               key={type.id}
               href={`/shop?giftType=${type.slug}`}

@@ -43,6 +43,17 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
           },
           orderBy: { assigned_at: "desc" },
         },
+        deliveryOtps: {
+          select: {
+            id: true,
+            expires_at: true,
+            attempt_count: true,
+            verified_at: true,
+            invalidated_at: true,
+            created_at: true,
+          },
+          orderBy: { created_at: "desc" },
+        },
       },
     });
 

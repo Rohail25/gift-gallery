@@ -1,13 +1,11 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import AdminShell from "./admin-shell";
-
-const ADMIN_ROLES = ["ADMIN", "SHOP_MANAGER", "DECOR_MANAGER"];
+import RiderShell from "./rider-shell";
 
 export const dynamic = "force-dynamic";
 
-export default async function AdminLayout({
+export default async function RiderLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -15,16 +13,13 @@ export default async function AdminLayout({
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    redirect("/auth/login?callbackUrl=/admin");
+    redirect("/auth/login?callbackUrl=/rider");
   }
 
   const role = (session.user.role || "").toUpperCase();
-  if (role === "RIDER") {
-    redirect("/rider");
-  }
-  if (!ADMIN_ROLES.includes(role)) {
+  if (role !== "RIDER") {
     redirect("/");
   }
 
-  return <AdminShell>{children}</AdminShell>;
+  return <RiderShell>{children}</RiderShell>;
 }

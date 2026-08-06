@@ -38,10 +38,28 @@ interface Cart {
   itemCount: number;
 }
 
+interface DeliveryZone {
+  id: number;
+  name: string;
+  city: string;
+  area: string;
+  delivery_charge: number | string;
+  minimum_order_amount: number | string;
+  free_delivery_minimum?: number | string | null;
+  estimated_min_minutes?: number | null;
+  estimated_max_minutes?: number | null;
+  is_active: boolean;
+}
+
+const toNumber = (v: number | string | null | undefined): number =>
+  typeof v === "number" ? v : parseFloat(v || "0");
+
 export default function CheckoutPage() {
   const router = useRouter();
   const { status } = useSession();
   const [addresses, setAddresses] = useState<Address[]>([]);
+  const [deliveryZones, setDeliveryZones] = useState<DeliveryZone[]>([]);
+  const [selectedZoneId, setSelectedZoneId] = useState<number | null>(null);
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedAddress, setSelectedAddress] = useState<number | null>(null);
@@ -71,16 +89,19 @@ export default function CheckoutPage() {
 
     const fetchData = async () => {
       try {
-        const [cartRes, addressesRes] = await Promise.all([
+        const [cartRes, addressesRes, zonesRes] = await Promise.all([
           fetch("/api/cart"),
           fetch("/api/addresses"),
+          fetch("/api/delivery-zones?active=true"),
         ]);
 
         const cartData = await cartRes.json();
         const addressesData = await addressesRes.json();
+        const zonesData = await zonesRes.json();
 
         setCart(cartData.data);
         setAddresses(addressesData.data || []);
+        setDeliveryZones(zonesData.data || []);
 
         // Auto-select default address
         const defaultAddress = addressesData.data?.find((addr: Address) => addr.is_default);
@@ -135,6 +156,29 @@ export default function CheckoutPage() {
       setAddressErrors({ _error: "Failed to add address" });
     }
   };
+
+  const selectedAddressObj =
+    addresses.find((addr) => addr.id === selectedAddress) || null;
+
+  const zoneForSelected = selectedAddressObj
+    ? deliveryZones.find(
+        (z) =>
+          z.city.trim().toLowerCase() === selectedAddressObj.city.trim().toLowerCase() &&
+          z.area.trim().toLowerCase() === selectedAddressObj.area.trim().toLowerCase()
+      ) || null
+    : deliveryZones.find((z) => z.id === selectedZoneId) || null;
+
+  const subtotal = cart?.subtotal ?? 0;
+  const belowMinimum =
+    zoneForSelected && subtotal < toNumber(zoneForSelected.minimum_order_amount);
+  const deliveryCharge = zoneForSelected
+    ? zoneForSelected.free_delivery_minimum != null &&
+      subtotal >= toNumber(zoneForSelected.free_delivery_minimum)
+      ? 0
+      : toNumber(zoneForSelected.delivery_charge)
+    : null;
+  const estimatedTotal =
+    deliveryCharge === null ? subtotal : subtotal + deliveryCharge;
 
   const handlePlaceOrder = async () => {
     if (!selectedAddress) {
@@ -289,14 +333,34 @@ export default function CheckoutPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-text-primary mb-1">Area</label>
-                      <input
-                        type="text"
-                        value={newAddress.area}
-                        onChange={(e) => setNewAddress({ ...newAddress, area: e.target.value })}
+                      <label className="block text-sm font-medium text-text-primary mb-1">Area / Zone</label>
+                      <select
+                        value={selectedZoneId ?? ""}
+                        onChange={(e) => {
+                          const zoneId = e.target.value ? Number(e.target.value) : null;
+                          const zone = deliveryZones.find((z) => z.id === zoneId) || null;
+                          setSelectedZoneId(zoneId);
+                          setNewAddress({
+                            ...newAddress,
+                            area: zone?.area ?? "",
+                            city: zone?.city ?? newAddress.city,
+                          });
+                        }}
                         className="w-full px-4 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white"
                         required
-                      />
+                      >
+                        <option value="">Select your area</option>
+                        {deliveryZones.map((zone) => (
+                          <option key={zone.id} value={zone.id}>
+                            {zone.area} - {zone.city}
+                          </option>
+                        ))}
+                      </select>
+                      {deliveryZones.length === 0 && (
+                        <p className="text-xs text-rose-gold mt-1">
+                          No delivery zones are currently available.
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-text-primary mb-1">Postal Code (Optional)</label>
@@ -439,24 +503,61 @@ export default function CheckoutPage() {
               <div className="space-y-3 border-t border-border-custom pt-4">
                 <div className="flex justify-between">
                   <span className="text-text-secondary">Subtotal</span>
-                  <span className="font-medium">Rs. {Math.round(cart.subtotal).toLocaleString()}</span>
+                  <span className="font-medium">Rs. {Math.round(subtotal).toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-text-secondary">Delivery</span>
-                  <span className="text-sm text-gold-primary">Calculated at next step</span>
+                  {deliveryCharge === null ? (
+                    <span className="text-sm text-rose-gold">Select area to calculate</span>
+                  ) : deliveryCharge === 0 ? (
+                    <span className="text-sm text-green-600 font-medium">FREE</span>
+                  ) : (
+                    <span className="font-medium">Rs. {Math.round(deliveryCharge).toLocaleString()}</span>
+                  )}
                 </div>
+                {zoneForSelected && zoneForSelected.estimated_min_minutes != null && (
+                  <div className="flex justify-between text-xs text-text-secondary">
+                    <span>Estimated delivery time</span>
+                    <span>
+                      {zoneForSelected.estimated_min_minutes}-
+                      {zoneForSelected.estimated_max_minutes ?? zoneForSelected.estimated_min_minutes} min
+                    </span>
+                  </div>
+                )}
+                {zoneForSelected && zoneForSelected.free_delivery_minimum != null && (
+                  <p className="text-xs text-text-secondary">
+                    Free delivery on orders above Rs.{" "}
+                    {Math.round(toNumber(zoneForSelected.free_delivery_minimum)).toLocaleString()}
+                  </p>
+                )}
               </div>
+
+              {selectedAddress && deliveryCharge === null && (
+                <p className="mt-4 text-sm text-rose-gold">
+                  Delivery is not available for the selected area.
+                </p>
+              )}
+              {selectedAddress && belowMinimum && (
+                <p className="mt-4 text-sm text-rose-gold">
+                  Minimum order amount for {zoneForSelected?.area} is Rs.{" "}
+                  {Math.round(toNumber(zoneForSelected!.minimum_order_amount)).toLocaleString()}.
+                </p>
+              )}
 
               <div className="border-t border-border-custom pt-4 mt-4">
                 <div className="flex justify-between text-lg">
                   <span className="font-luxury text-text-primary">Estimated Total</span>
-                  <span className="font-luxury text-gold-primary">Rs. {Math.round(cart.subtotal).toLocaleString()}</span>
+                  <span className="font-luxury text-gold-primary">
+                    Rs. {Math.round(estimatedTotal).toLocaleString()}
+                  </span>
                 </div>
               </div>
 
               <button
                 onClick={handlePlaceOrder}
-                disabled={processing || !selectedAddress}
+                disabled={
+                  processing || !selectedAddress || deliveryCharge === null || !!belowMinimum
+                }
                 className="w-full mt-6 py-3 px-4 bg-gold-primary text-white font-medium rounded-lg hover:bg-gold-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {processing ? "Processing..." : "Place Order (COD)"}

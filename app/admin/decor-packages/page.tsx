@@ -16,12 +16,12 @@ interface DecorPackage {
   is_visible: boolean;
   status: string;
   images: Array<{ image_url: string; is_primary: boolean }>;
-  category: {
+  decor_category: {
     name: string;
     event_type: {
       name: string;
-    };
-  };
+    } | null;
+  } | null;
 }
 
 export default function AdminDecorPackagesPage() {
@@ -66,7 +66,7 @@ export default function AdminDecorPackagesPage() {
       const res = await fetch(`/api/decor-packages?id=${id}`, { method: "DELETE" });
       if (res.ok) setPackages(packages.filter((p) => p.id !== id));
       else alert("Failed to delete");
-    } catch (error) {
+    } catch {
       alert("An error occurred");
     }
   };
@@ -155,7 +155,10 @@ export default function AdminDecorPackagesPage() {
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="font-luxury text-lg text-text-primary">{pkg.name}</h3>
-                    <p className="text-sm text-text-secondary">{pkg.category.event_type.name} - {pkg.category.name}</p>
+                    <p className="text-sm text-text-secondary">
+                      {pkg.decor_category?.event_type?.name || "General"} -{" "}
+                      {pkg.decor_category?.name || "Uncategorized"}
+                    </p>
                   </div>
                   <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusBadge(pkg.status)}`}>
                     {pkg.status}

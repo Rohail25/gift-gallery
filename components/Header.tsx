@@ -16,13 +16,17 @@ import {
   LogOut,
   Package,
   LayoutDashboard,
+  Heart,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/components/CartProvider";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
   { href: "/shop", label: "Shop Gifts" },
   { href: "/decor", label: "Event Decor" },
+  { href: "/about", label: "About Us" },
+  { href: "/contact", label: "Contact Us" },
   { href: "/orders", label: "My Orders" },
 ];
 
@@ -39,8 +43,8 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const { data: session, status } = useSession();
+  const { cartCount } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -58,29 +62,6 @@ export function Header() {
     }, 0);
     return () => clearTimeout(t);
   }, [pathname]);
-
-  useEffect(() => {
-    if (status !== "authenticated") return;
-
-    let cancelled = false;
-
-    async function loadCart() {
-      try {
-        const res = await fetch("/api/cart");
-        if (res.ok) {
-          const json = await res.json();
-          if (!cancelled) setCartCount(json.data?.itemCount ?? 0);
-        }
-      } catch {
-        /* ignore */
-      }
-    }
-
-    loadCart();
-    return () => {
-      cancelled = true;
-    };
-  }, [status]);
 
   // Close dropdowns on outside click
   useEffect(() => {
@@ -255,6 +236,14 @@ export function Header() {
             </div>
 
             <Link
+              href="/favourites"
+              aria-label="Favourites"
+              className="p-2 hover:text-gold-primary transition"
+            >
+              <Heart size={20} />
+            </Link>
+
+            <Link
               href="/cart"
               aria-label="Cart"
               className="p-2 hover:text-gold-primary transition relative"
@@ -378,18 +367,6 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href="/about"
-                className="px-3 py-3 rounded-lg text-sm font-medium tracking-wide uppercase text-text-primary hover:bg-bg-secondary hover:text-gold-primary transition"
-              >
-                About Us
-              </Link>
-              <Link
-                href="/contact"
-                className="px-3 py-3 rounded-lg text-sm font-medium tracking-wide uppercase text-text-primary hover:bg-bg-secondary hover:text-gold-primary transition"
-              >
-                Contact Us
-              </Link>
             </div>
           </nav>
         )}

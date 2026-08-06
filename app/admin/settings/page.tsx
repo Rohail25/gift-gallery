@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Save, Store } from "lucide-react";
+import { Save, Store, Lock } from "lucide-react";
 
 interface Setting {
   key: string;
@@ -33,6 +33,11 @@ export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changing, setChanging] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -91,10 +96,42 @@ export default function AdminSettingsPage() {
         const data = await res.json();
         alert(data.error || "Failed to save settings");
       }
-    } catch (error) {
+    } catch {
       alert("An error occurred");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleChangePassword = async () => {
+    setChanging(true);
+    setPasswordMessage(null);
+
+    try {
+      const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword,
+          confirm_password: confirmPassword,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setPasswordMessage({ type: "success", text: data.message || "Password changed successfully!" });
+        setCurrentPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+      } else {
+        setPasswordMessage({ type: "error", text: data.error || "Failed to change password" });
+      }
+    } catch {
+      setPasswordMessage({ type: "error", text: "An error occurred" });
+    } finally {
+      setChanging(false);
     }
   };
 
@@ -176,6 +213,66 @@ export default function AdminSettingsPage() {
         </div>
 
         <div className="space-y-6">
+          <div className="bg-bg-card rounded-lg border border-border-custom p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Lock className="w-8 h-8 text-gold-primary" />
+              <h2 className="text-xl font-luxury text-text-primary">Change Password</h2>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-1">
+                  Current Password
+                </label>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-1">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-text-primary mb-1">
+                  Confirm New Password
+                </label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-4 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white"
+                />
+              </div>
+              {passwordMessage && (
+                <div
+                  className={`p-3 text-sm rounded-lg ${
+                    passwordMessage.type === "success"
+                      ? "bg-green-50 text-green-800 border border-green-200"
+                      : "bg-red-50 text-red-800 border border-red-200"
+                  }`}
+                >
+                  {passwordMessage.text}
+                </div>
+              )}
+              <button
+                onClick={handleChangePassword}
+                disabled={changing || !currentPassword || !newPassword || !confirmPassword}
+                className="w-full py-2.5 bg-gold-primary text-white rounded-lg text-sm font-medium hover:bg-gold-dark transition disabled:opacity-50"
+              >
+                {changing ? "Updating..." : "Change Password"}
+              </button>
+            </div>
+          </div>
+
           <div className="bg-bg-card rounded-lg border border-border-custom p-6">
             <div className="flex items-center gap-3 mb-4">
               <Store className="w-8 h-8 text-gold-primary" />

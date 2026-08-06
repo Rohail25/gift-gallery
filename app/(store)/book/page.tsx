@@ -14,6 +14,10 @@ interface DecorPackage {
   estimated_setup_hours: number;
   maximum_guests: number;
   service_city: string;
+  decor_category: {
+    event_type_id: number;
+    event_type?: { id: number; name: string };
+  };
 }
 
 export default function BookDecorPage() {
@@ -82,17 +86,38 @@ function BookDecorContent() {
       return;
     }
 
+    if (!packageData) {
+      alert("Please select a decor package to book.");
+      setLoading(false);
+      return;
+    }
+
+    const eventTypeId =
+      packageData.decor_category?.event_type_id ??
+      packageData.decor_category?.event_type?.id;
+
     try {
+      const payload = {
+        ...formData,
+        decor_package_id: packageData.id,
+        event_type_id: eventTypeId,
+        guest_count: formData.guest_count
+          ? parseInt(formData.guest_count, 10)
+          : undefined,
+      };
+
       const res = await fetch("/api/decor-bookings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        router.push(`/bookings/${data.data.booking_number}/confirmation`);
+        router.push(
+          `/account?tab=bookings`
+        );
       } else {
         alert(data.error || "Failed to submit booking");
       }
