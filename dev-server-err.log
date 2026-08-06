@@ -1,0 +1,177 @@
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:421:37)\n' +
+    '    at async getServerSession (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:3429:21)\n' +
+    '    at async AdminLayout (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\[root-of-the-server]__0mw4ya4._.js:167:21)',
+  name: 'JWEDecryptionFailed'
+}
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_jose_dist_node_cjs_0w-lk69._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:421:37)\n' +
+    '    at async getServerSession (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\node_modules_next-auth_19qmkea._.js:3429:21)\n' +
+    '    at async AdminLayout (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\ssr\\[root-of-the-server]__0mw4ya4._.js:167:21)',
+  name: 'JWEDecryptionFailed'
+}
+[next-auth][warn][DEBUG_ENABLED] 
+https://next-auth.js.org/warnings#debug_enabled
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:421:37)\n' +
+    '    at async NextAuthRouteHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3354:30)\n' +
+    '    at async NextAuth._args$ (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3389:24)\n' +
+    '    at async AppRouteRouteModule.do (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42791)\n' +
+    '    at async AppRouteRouteModule.handle (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50709)\n' +
+    '    at async responseGenerator (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4709:30)\n' +
+    '    at async AppRouteRouteModule.handleResponse (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:248823)\n' +
+    '    at async handleResponse (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4781:32)\n' +
+    '    at async Module.handler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4901:9)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n' +
+    '    at async DevServer.renderPageComponent (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n' +
+    '    at async DevServer.renderToResponseImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n' +
+    '    at async DevServer.pipeImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n' +
+    '    at async D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n' +
+    '    at async Span.traceAsyncFn (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n' +
+    '    at async invokeRender (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n' +
+    '    at async handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n' +
+    '    at async requestHandlerImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n' +
+    '    at async Server.requestListener (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:421:37)\n' +
+    '    at async NextAuthRouteHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3354:30)\n' +
+    '    at async NextAuth._args$ (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3389:24)\n' +
+    '    at async AppRouteRouteModule.do (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42791)\n' +
+    '    at async AppRouteRouteModule.handle (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50709)\n' +
+    '    at async responseGenerator (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4709:30)\n' +
+    '    at async AppRouteRouteModule.handleResponse (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:248823)\n' +
+    '    at async handleResponse (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4781:32)\n' +
+    '    at async Module.handler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4901:9)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n' +
+    '    at async DevServer.renderPageComponent (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n' +
+    '    at async DevServer.renderToResponseImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n' +
+    '    at async DevServer.pipeImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n' +
+    '    at async D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n' +
+    '    at async Span.traceAsyncFn (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n' +
+    '    at async invokeRender (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n' +
+    '    at async handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n' +
+    '    at async requestHandlerImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n' +
+    '    at async Server.requestListener (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:421:37)\n' +
+    '    at async NextAuthRouteHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3354:30)\n' +
+    '    at async NextAuth._args$ (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3389:24)\n' +
+    '    at async AppRouteRouteModule.do (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42791)\n' +
+    '    at async AppRouteRouteModule.handle (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50709)\n' +
+    '    at async responseGenerator (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4709:30)\n' +
+    '    at async AppRouteRouteModule.handleResponse (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:248823)\n' +
+    '    at async handleResponse (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4781:32)\n' +
+    '    at async Module.handler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4901:9)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n' +
+    '    at async DevServer.renderPageComponent (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n' +
+    '    at async DevServer.renderToResponseImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n' +
+    '    at async DevServer.pipeImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n' +
+    '    at async D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n' +
+    '    at async Span.traceAsyncFn (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n' +
+    '    at async invokeRender (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n' +
+    '    at async handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n' +
+    '    at async requestHandlerImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n' +
+    '    at async Server.requestListener (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+[next-auth][error][JWT_SESSION_ERROR] 
+https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
+  message: 'decryption operation failed',
+  stack: 'JWEDecryptionFailed: decryption operation failed\n' +
+    '    at gcmDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3502:15)\n' +
+    '    at decrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:3525:20)\n' +
+    '    at flattenedDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:465:52)\n' +
+    '    at async compactDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:265:23)\n' +
+    '    at async jwtDecrypt (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_jose_dist_node_cjs_1j9cyjs._.js:1617:23)\n' +
+    '    at async Object.decode (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3253:25)\n' +
+    '    at async Object.session (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:2859:34)\n' +
+    '    at async AuthHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:421:37)\n' +
+    '    at async NextAuthRouteHandler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3354:30)\n' +
+    '    at async NextAuth._args$ (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next-auth_134_koo._.js:3389:24)\n' +
+    '    at async AppRouteRouteModule.do (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:42791)\n' +
+    '    at async AppRouteRouteModule.handle (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:5:50709)\n' +
+    '    at async responseGenerator (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4709:30)\n' +
+    '    at async AppRouteRouteModule.handleResponse (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\compiled\\next-server\\app-route-turbo.runtime.dev.js:1:248823)\n' +
+    '    at async handleResponse (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4781:32)\n' +
+    '    at async Module.handler (D:\\projects\\next js\\gift-gallery\\.next\\dev\\server\\chunks\\node_modules_next_0ei8x92._.js:4901:9)\n' +
+    '    at async DevServer.renderToResponseWithComponentsImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1537:9)\n' +
+    '    at async DevServer.renderPageComponent (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1589:24)\n' +
+    '    at async DevServer.renderToResponseImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1639:32)\n' +
+    '    at async DevServer.pipeImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:1088:25)\n' +
+    '    at async NextNodeServer.handleCatchallRenderRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\next-server.js:338:17)\n' +
+    '    at async DevServer.handleRequestImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\base-server.js:979:17)\n' +
+    '    at async D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:426:20\n' +
+    '    at async Span.traceAsyncFn (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\trace\\trace.js:164:20)\n' +
+    '    at async DevServer.handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\dev\\next-dev-server.js:422:24)\n' +
+    '    at async invokeRender (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:306:21)\n' +
+    '    at async handleRequest (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:508:24)\n' +
+    '    at async requestHandlerImpl (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\router-server.js:565:13)\n' +
+    '    at async Server.requestListener (D:\\projects\\next js\\gift-gallery\\node_modules\\next\\dist\\server\\lib\\start-server.js:225:13)',
+  name: 'JWEDecryptionFailed'
+}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior

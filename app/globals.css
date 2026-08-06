@@ -1,26 +1,135 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Luxury Boutique Palette Variables */
+  --bg-primary: #F3E7DB;
+  --bg-secondary: #FAF5EF;
+  --bg-card: #FFFDFC;
+
+  --gold-primary: #B8864A;
+  --gold-light: #D8B97A;
+  --gold-dark: #8E673E;
+
+  --rose-gold: #C89A7A;
+
+  --text-primary: #6B4A32;
+  --text-secondary: #8D7463;
+
+  --border-color: #E6D5C7;
+
+  --footer-bg: #4D3626;
+  --footer-text: #FAF5EF;
+
+  /* Standard Next.js/Tailwind system mappings mapping to the luxury variables */
+  --background: var(--bg-primary);
+  --foreground: var(--text-primary);
+
+  --card: var(--bg-card);
+  --card-foreground: var(--text-primary);
+
+  --popover: var(--bg-card);
+  --popover-foreground: var(--text-primary);
+
+  --primary: var(--gold-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--bg-secondary);
+  --secondary-foreground: var(--text-primary);
+
+  --muted: var(--text-secondary);
+  --muted-foreground: var(--text-secondary);
+
+  --accent: var(--rose-gold);
+  --accent-foreground: #ffffff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: var(--border-color);
+  --input: var(--border-color);
+  --ring: var(--gold-primary);
+
+  --radius: 0.75rem;
 }
 
-@theme inline {
+@theme {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-card: var(--bg-card);
+
+  --color-gold-primary: var(--gold-primary);
+  --color-gold-light: var(--gold-light);
+  --color-gold-dark: var(--gold-dark);
+
+  --color-rose-gold: var(--rose-gold);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-border-custom: var(--border-color);
+
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-text: var(--footer-text);
+
+  --font-luxury: "Playfair Display", Georgia, "Times New Roman", serif;
+
+  /* shadcn mappings */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-luxury);
+  color: var(--text-primary);
+}
+
+/* Custom premium hover effects helper classes */
+.hover-premium-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.hover-premium-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold-primary);
+  box-shadow: 0 10px 20px rgba(184, 134, 74, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide horizontal scrollbars caused by overflowing flex/grid rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

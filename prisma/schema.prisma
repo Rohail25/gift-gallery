@@ -1,0 +1,753 @@
+// Prisma schema for Gift Gallery project
+// Generated for MySQL provider
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SHOP_MANAGER
+  RIDER
+  DECOR_MANAGER
+  DECOR_STAFF
+}
+
+enum UserStatus {
+  active
+  blocked
+  suspended
+}
+
+enum GiftTypeStatus {
+  draft
+  active
+  inactive
+  archived
+}
+
+enum Visibility {
+  true
+  false
+}
+
+enum OrderStatus {
+  pending
+  confirmed
+  preparing
+  ready_for_pickup
+  assigned_to_rider
+  picked_up
+  on_the_way
+  delivered
+  cancelled
+  returned
+}
+
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+  partially_refunded
+}
+
+enum NotificationStatus {
+  pending
+  sent
+  failed
+}
+
+enum DeliveryOtpStatus {
+  pending
+  verified
+  invalidated
+}
+
+enum BookingStatus {
+  pending
+  under_review
+  site_visit_required
+  site_visit_completed
+  quotation_sent
+  customer_approved
+  confirmed
+  preparation_started
+  team_dispatched
+  setup_in_progress
+  setup_completed
+  event_completed
+  cancelled
+}
+
+enum QuotationStatus {
+  draft
+  sent
+  accepted
+  rejected
+  expired
+  cancelled
+}
+
+enum AssignmentStatus {
+  assigned
+  accepted
+  working
+  completed
+  cancelled
+}
+
+enum PaymentType {
+  advance
+  remaining
+  full
+  refund
+}
+
+enum PaymentMethod {
+  cod
+  stripe
+  paypal
+  jazzcash
+  easypaisa
+  bank_transfer
+}
+
+model User {
+  id               Int        @id @default(autoincrement())
+  full_name        String
+  email            String     @unique
+  phone            String?
+  password_hash    String?
+  role             UserRole   @default(CUSTOMER)
+  auth_provider    String
+  google_id        String?
+  email_verified_at DateTime?
+  status           UserStatus @default(active)
+  last_login_at    DateTime?
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+
+  // relations
+  addresses        CustomerAddress[]
+  verificationOtps VerificationOtp[]
+  deliveryOtps     DeliveryOtp[]
+  orders           Order[]
+  bookings         DecorBooking[]
+  carts            Cart[]
+  productReviews   ProductReview[]
+  notifications    Notification[]
+  orderStatusChanges OrderStatusHistory[] @relation("OrderStatusChangedBy")
+  decorQuotationsCreated DecorQuotation[]
+  teamAssignments  DecorTeamAssignment[] @relation("DecorTeamAssignedUser")
+  teamAssignmentsAssignedBy DecorTeamAssignment[] @relation("DecorTeamAssignedByUser")
+  decorBookingStatusChanges DecorBookingStatusHistory[] @relation("DecorBookingStatusChangedBy")
+  decorReviews     DecorReview[]
+  riderProfile     RiderProfile?
+  riderAssignments OrderRiderAssignment[] @relation("RiderAssignments")
+  riderAssignmentsAssignedBy OrderRiderAssignment[] @relation("RiderAssignmentsBy")
+}
+
+model VerificationOtp {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [user_id], references: [id])
+  user_id      Int
+  email        String
+  purpose      String
+  otp_hash     String
+  expires_at   DateTime
+  attempt_count Int      @default(0)
+  used_at      DateTime?
+  created_at   DateTime @default(now())
+}
+
+model CustomerAddress {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  label             String?
+  full_name         String
+  phone             String
+  alternative_phone String?
+  address_line_1    String
+  address_line_2    String?
+  city              String
+  area              String
+  postal_code       String?
+  delivery_instructions String?
+  latitude          Float?
+  longitude         Float?
+  is_default        Boolean  @default(false)
+  is_active         Boolean  @default(true)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model GiftType {
+  id               Int      @id @default(autoincrement())
+  name             String
+  slug             String   @unique
+  description      String?
+  image_url        String?
+  image_public_id  String?
+  image_alt_text   String?
+  meta_title       String?
+  meta_description String?
+  sort_order       Int
+  status           GiftTypeStatus @default(draft)
+  is_visible       Boolean @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  productCategories GiftTypeProductCategory[]
+}
+
+model ProductCategory {
+  id               Int      @id @default(autoincrement())
+  name             String
+  slug             String   @unique
+  description      String?
+  image_url        String?
+  image_public_id  String?
+  image_alt_text   String?
+  meta_title       String?
+  meta_description String?
+  sort_order       Int
+  status           GiftTypeStatus @default(draft)
+  is_visible       Boolean @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  giftTypes        GiftTypeProductCategory[]
+  products         Product[]
+}
+
+model GiftTypeProductCategory {
+  id                Int             @id @default(autoincrement())
+  gift_type_id      Int
+  product_category_id Int
+  gift_type         GiftType        @relation(fields: [gift_type_id], references: [id], onDelete: Cascade)
+  product_category  ProductCategory @relation(fields: [product_category_id], references: [id], onDelete: Cascade)
+
+  @@unique([gift_type_id, product_category_id])
+  @@index([product_category_id])
+  @@map("gift_type_product_categories")
+}
+
+model Product {
+  id                 Int      @id @default(autoincrement())
+  product_category   ProductCategory @relation(fields: [product_category_id], references: [id])
+  product_category_id Int
+  name               String
+  slug               String   @unique
+  sku                String   @unique
+  short_description  String?
+  description        String?
+  regular_price      Decimal   @db.Decimal(10,2)
+  sale_price         Decimal?  @db.Decimal(10,2)
+  cost_price         Decimal?  @db.Decimal(10,2)
+  stock_quantity     Int
+  low_stock_threshold Int
+  weight_grams       Int?
+  average_rating     Float @default(0)
+  reviews_count      Int   @default(0)
+  is_featured        Boolean @default(false)
+  is_visible         Boolean @default(true)
+  status             GiftTypeStatus @default(active)
+  meta_title         String?
+  meta_description   String?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  images             ProductImage[]
+  reviews            ProductReview[]
+  cartItems          CartItem[]
+}
+
+model ProductImage {
+  id          Int      @id @default(autoincrement())
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  Int
+  image_url   String
+  public_id   String?
+  alt_text    String?
+  sort_order  Int
+  is_primary  Boolean @default(false)
+  is_visible  Boolean @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model Cart {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [user_id], references: [id])
+  user_id       Int
+  session_id    String?
+  status        String   @default("active")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  items         CartItem[]
+}
+
+model CartItem {
+  id          Int      @id @default(autoincrement())
+  cart        Cart     @relation(fields: [cart_id], references: [id])
+  cart_id     Int
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  Int
+  quantity    Int
+  unit_price  Decimal   @db.Decimal(10,2)
+  line_total  Decimal   @db.Decimal(10,2)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
+model DeliveryZone {
+  id                      Int      @id @default(autoincrement())
+  name                    String
+  city                    String
+  area                    String
+  delivery_charge         Decimal   @db.Decimal(10,2)
+  minimum_order_amount   Decimal   @db.Decimal(10,2)
+  free_delivery_minimum  Decimal?  @db.Decimal(10,2)
+  estimated_min_minutes  Int?
+  estimated_max_minutes  Int?
+  cash_on_delivery_available Boolean @default(true)
+  is_active               Boolean @default(true)
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  orders                  Order[]
+}
+
+model City {
+  id       Int    @id
+  name     String
+  province String?
+}
+
+model Order {
+  id                 Int      @id @default(autoincrement())
+  user               User     @relation(fields: [user_id], references: [id])
+  user_id            Int
+  delivery_zone      DeliveryZone @relation(fields: [delivery_zone_id], references: [id])
+  delivery_zone_id   Int
+  order_number       String   @unique
+  subtotal           Decimal   @db.Decimal(10,2)
+  delivery_charge    Decimal   @db.Decimal(10,2)
+  discount_amount    Decimal   @db.Decimal(10,2)
+  tax_amount         Decimal   @db.Decimal(10,2)
+  grand_total        Decimal   @db.Decimal(10,2)
+  payment_method     PaymentMethod
+  payment_status     PaymentStatus @default(pending)
+  order_status       OrderStatus   @default(pending)
+  customer_note      String?
+  delivery_date      DateTime?
+  delivery_time_slot String?
+  placed_at          DateTime @default(now())
+  confirmed_at       DateTime?
+  ready_at           DateTime?
+  picked_up_at       DateTime?
+  delivered_at       DateTime?
+  cancelled_at       DateTime?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  items              OrderItem[]
+  delivery_address   OrderDeliveryAddress?
+  payments           Payment[]
+  status_history     OrderStatusHistory[]
+  deliveryOtps       DeliveryOtp[]
+  notifications      Notification[]
+  orderRiderAssignments OrderRiderAssignment[]
+}
+
+model OrderItem {
+  id               Int      @id @default(autoincrement())
+  order            Order    @relation(fields: [order_id], references: [id])
+  order_id         Int
+  product_id       Int?
+  product_name     String
+  product_slug     String?
+  product_sku      String
+  primary_image_url String?
+  unit_price       Decimal   @db.Decimal(10,2)
+  quantity         Int
+  line_total       Decimal   @db.Decimal(10,2)
+  created_at       DateTime @default(now())
+
+  reviews          ProductReview[]
+}
+
+model OrderDeliveryAddress {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int      @unique
+  customer_address_id Int?
+  full_name         String
+  phone             String
+  alternative_phone String?
+  address_line_1    String
+  address_line_2    String?
+  city              String
+  area              String
+  postal_code       String?
+  delivery_instructions String?
+  latitude          Float?
+  longitude         Float?
+  created_at        DateTime @default(now())
+}
+
+model Payment {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  payment_method    PaymentMethod
+  gateway_name      String?
+  transaction_id    String?
+  amount            Decimal   @db.Decimal(10,2)
+  currency          String
+  status            PaymentStatus @default(pending)
+  gateway_response  String?
+  paid_at           DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model OrderStatusHistory {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  changed_by_user   User?    @relation("OrderStatusChangedBy", fields: [changed_by_user_id], references: [id])
+  changed_by_user_id Int?
+  previous_status   OrderStatus
+  new_status        OrderStatus
+  note              String?
+  created_at        DateTime @default(now())
+}
+
+model ProductReview {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  order_item        OrderItem @relation(fields: [order_item_id], references: [id])
+  order_item_id     Int
+  rating            Int
+  description       String
+  status            String   @default("pending")
+  is_verified_purchase Boolean @default(false)
+  admin_reply       String?
+  admin_replied_at  DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model Notification {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  order             Order?   @relation(fields: [order_id], references: [id])
+  order_id          Int?
+  decor_booking     DecorBooking? @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int?
+  type              String
+  channel           String
+  title             String
+  message           String
+  status            NotificationStatus @default(pending)
+  sent_at           DateTime?
+  read_at           DateTime?
+  created_at        DateTime @default(now())
+}
+
+model DeliveryOtp {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  otp_hash          String
+  expires_at        DateTime
+  attempt_count     Int @default(0)
+  verified_at       DateTime?
+  invalidated_at    DateTime?
+  created_at        DateTime @default(now())
+}
+
+model RiderProfile {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int      @unique
+  vehicle_type      String?
+  vehicle_number    String?
+  availability_status String @default("available")
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model OrderRiderAssignment {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  rider_user        User     @relation("RiderAssignments", fields: [rider_user_id], references: [id])
+  rider_user_id     Int
+  assigned_by_user  User     @relation("RiderAssignmentsBy", fields: [assigned_by_user_id], references: [id])
+  assigned_by_user_id Int
+  status            String   @default("assigned")
+  assigned_at       DateTime @default(now())
+  accepted_at       DateTime?
+  picked_up_at      DateTime?
+  completed_at      DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model EventType {
+  id                Int      @id @default(autoincrement())
+  name              String
+  slug              String   @unique
+  short_description String?
+  description       String?
+  image_url         String?
+  image_public_id   String?
+  image_alt_text    String?
+  meta_title        String?
+  meta_description  String?
+  sort_order        Int
+  status            GiftTypeStatus @default(draft)
+  is_visible        Boolean @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  categories        DecorCategory[]
+  bookings          DecorBooking[]
+}
+
+model DecorCategory {
+  id                Int      @id @default(autoincrement())
+  event_type        EventType @relation(fields: [event_type_id], references: [id])
+  event_type_id     Int
+  name              String
+  slug              String   @unique
+  short_description String?
+  description       String?
+  image_url         String?
+  image_public_id   String?
+  image_alt_text    String?
+  meta_title        String?
+  meta_description  String?
+  sort_order        Int
+  status            GiftTypeStatus @default(draft)
+  is_visible        Boolean @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  packages          DecorPackage[]
+}
+
+model DecorPackage {
+  id                Int      @id @default(autoincrement())
+  decor_category    DecorCategory @relation(fields: [decor_category_id], references: [id])
+  decor_category_id Int
+  name              String
+  slug              String   @unique
+  package_code      String   @unique
+  short_description String?
+  description       String
+  included_items    Json
+  excluded_items    Json?
+  terms_and_conditions String?
+  starting_price    Decimal   @db.Decimal(10,2)
+  sale_price        Decimal?  @db.Decimal(10,2)
+  estimated_setup_hours Int?
+  maximum_guests    Int?
+  service_city      String?
+  average_rating    Float @default(0)
+  reviews_count     Int   @default(0)
+  is_featured       Boolean @default(false)
+  is_visible        Boolean @default(true)
+  status            GiftTypeStatus @default(draft)
+  meta_title        String?
+  meta_description  String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  images            DecorPackageImage[]
+  bookings          DecorBooking[]
+  reviews           DecorReview[]
+}
+
+model DecorPackageImage {
+  id               Int      @id @default(autoincrement())
+  decor_package    DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id Int
+  image_url        String
+  public_id        String?
+  alt_text         String?
+  sort_order       Int
+  is_primary       Boolean @default(false)
+  is_visible       Boolean @default(true)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+}
+
+model DecorBooking {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  decor_package     DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id  Int
+  event_type        EventType @relation(fields: [event_type_id], references: [id])
+  event_type_id     Int
+  booking_number    String   @unique
+  event_date        DateTime
+  event_start_time  String?
+  event_end_time    String?
+  guest_count       Int?
+  venue_type        String?
+  venue_name        String?
+  theme_preferences String?
+  customer_notes    String?
+  package_starting_price Decimal @db.Decimal(10,2)
+  transport_charge  Decimal   @db.Decimal(10,2)
+  quoted_amount     Decimal?  @db.Decimal(10,2)
+  final_amount      Decimal?  @db.Decimal(10,2)
+  booking_status    BookingStatus @default(pending)
+  payment_method    PaymentMethod?
+  payment_status    PaymentStatus @default(pending)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  venue_snapshot    DecorBookingVenue?
+  quotations        DecorQuotation[]
+  team_assignments  DecorTeamAssignment[]
+  payments          DecorBookingPayment[]
+  status_history    DecorBookingStatusHistory[]
+  reviews           DecorReview[]
+  notifications     Notification[]
+}
+
+model DecorBookingVenue {
+  id               Int      @id @default(autoincrement())
+  decor_booking    DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id Int      @unique
+  customer_address_id Int?
+  contact_name     String
+  contact_phone    String
+  alternative_phone String?
+  venue_name       String?
+  address_line_1   String
+  address_line_2   String?
+  city             String
+  area             String
+  postal_code      String?
+  venue_instructions String?
+  latitude         Float?
+  longitude        Float?
+  created_at       DateTime @default(now())
+}
+
+model DecorQuotation {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  quotation_number  String   @unique
+  package_amount    Decimal   @db.Decimal(10,2)
+  transport_charge  Decimal   @db.Decimal(10,2)
+  additional_charge Decimal   @db.Decimal(10,2)
+  discount_amount   Decimal   @db.Decimal(10,2)
+  total_amount      Decimal   @db.Decimal(10,2)
+  notes             String?
+  valid_until       DateTime?
+  status            QuotationStatus @default(draft)
+  created_by_user   User @relation(fields: [created_by_user_id], references: [id])
+  created_by_user_id Int
+  accepted_at       DateTime?
+  rejected_at       DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model DecorTeamAssignment {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  assigned_user     User @relation("DecorTeamAssignedUser", fields: [assigned_user_id], references: [id])
+  assigned_user_id  Int
+  assigned_by_user  User @relation("DecorTeamAssignedByUser", fields: [assigned_by_user_id], references: [id])
+  assigned_by_user_id Int
+  role_name         String
+  assignment_status AssignmentStatus @default(assigned)
+  assigned_at       DateTime @default(now())
+  accepted_at       DateTime?
+  completed_at      DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model DecorBookingPayment {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  payment_type      PaymentType
+  payment_method    PaymentMethod
+  amount            Decimal   @db.Decimal(10,2)
+  currency          String
+  transaction_id    String?
+  status            PaymentStatus @default(pending)
+  paid_at           DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model DecorBookingStatusHistory {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  changed_by_user   User? @relation("DecorBookingStatusChangedBy", fields: [changed_by_user_id], references: [id])
+  changed_by_user_id Int?
+  previous_status   BookingStatus
+  new_status        BookingStatus
+  note              String?
+  created_at        DateTime @default(now())
+}
+
+model DecorReview {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  decor_package     DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id  Int
+  user              User @relation(fields: [user_id], references: [id])
+  user_id           Int
+  rating            Int
+  description       String
+  status            String   @default("pending")
+  is_verified_booking Boolean @default(false)
+  admin_reply       String?
+  admin_replied_at  DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+}
+
+model SiteSetting {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique
+  value      String?
+  value_json Json?
+  group      String   @default("general")
+  label      String?
+  is_public  Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+// Additional enums and models can be added for static pages, homepage sections, SEO, etc.

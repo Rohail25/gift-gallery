@@ -1,0 +1,107 @@
+▲ Next.js 16.3.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.17.240.1:3000
+- Environments: .env
+✓ Ready in 713ms
+✓ Running next.config.ts took 61ms
+
+ GET /products/new-product-mshohdbo 200 in 3.4s (next.js: 2.1s, proxy.ts: 678ms, application-code: 580ms)
+ GET /admin/event-types 307 in 3.3s (next.js: 1100ms, proxy.ts: 677ms, application-code: 1563ms)
+ GET /admin/users 307 in 3.3s (next.js: 1193ms, proxy.ts: 678ms, application-code: 1473ms)
+ GET /auth/login?callbackUrl=/admin 200 in 304ms (next.js: 65ms, proxy.ts: 29ms, application-code: 210ms)
+ GET /auth/login?callbackUrl=/admin 200 in 189ms (next.js: 12ms, proxy.ts: 19ms, application-code: 158ms)
+prisma:query SELECT `SiteSetting`.`id`, `SiteSetting`.`key`, `SiteSetting`.`value`, `SiteSetting`.`value_json`, `SiteSetting`.`group`, `SiteSetting`.`label`, `SiteSetting`.`is_public`, `SiteSetting`.`created_at`, `SiteSetting`.`updated_at` FROM `SiteSetting` WHERE `SiteSetting`.`is_public` = ? ORDER BY `SiteSetting`.`key` ASC
+ GET /api/settings 200 in 1028ms (next.js: 301ms, proxy.ts: 29ms, application-code: 698ms)
+ GET /api/products/new-product-mshohdbo 404 in 1436ms (next.js: 482ms, proxy.ts: 28ms, application-code: 925ms)
+prisma:query SELECT `SiteSetting`.`id`, `SiteSetting`.`key`, `SiteSetting`.`value`, `SiteSetting`.`value_json`, `SiteSetting`.`group`, `SiteSetting`.`label`, `SiteSetting`.`is_public`, `SiteSetting`.`created_at`, `SiteSetting`.`updated_at` FROM `SiteSetting` WHERE `SiteSetting`.`is_public` = ? ORDER BY `SiteSetting`.`key` ASC
+ GET /api/settings 200 in 132ms (next.js: 61ms, proxy.ts: 43ms, application-code: 28ms)
+prisma:query SELECT `SiteSetting`.`id`, `SiteSetting`.`key`, `SiteSetting`.`value`, `SiteSetting`.`value_json`, `SiteSetting`.`group`, `SiteSetting`.`label`, `SiteSetting`.`is_public`, `SiteSetting`.`created_at`, `SiteSetting`.`updated_at` FROM `SiteSetting` WHERE `SiteSetting`.`is_public` = ? ORDER BY `SiteSetting`.`key` ASC
+ GET /api/settings 200 in 227ms (next.js: 29ms, proxy.ts: 162ms, application-code: 35ms)
+ GET /api/products/new-product-mshohdbo 404 in 361ms (next.js: 98ms, proxy.ts: 35ms, application-code: 227ms)
+prisma:query SELECT `SiteSetting`.`id`, `SiteSetting`.`key`, `SiteSetting`.`value`, `SiteSetting`.`value_json`, `SiteSetting`.`group`, `SiteSetting`.`label`, `SiteSetting`.`is_public`, `SiteSetting`.`created_at`, `SiteSetting`.`updated_at` FROM `SiteSetting` WHERE `SiteSetting`.`is_public` = ? ORDER BY `SiteSetting`.`key` ASC
+ GET /api/settings 200 in 68ms (next.js: 21ms, proxy.ts: 21ms, application-code: 27ms)
+ GET /api/auth/session 200 in 3.5s (next.js: 3.4s, proxy.ts: 30ms, application-code: 76ms)
+ GET /api/auth/session 200 in 3.0s (next.js: 2.1s, proxy.ts: 864ms, application-code: 92ms)
+ GET /api/auth/session 200 in 85ms (next.js: 35ms, proxy.ts: 32ms, application-code: 18ms)
+ GET /api/auth/session 200 in 113ms (next.js: 51ms, proxy.ts: 34ms, application-code: 29ms)
+ GET /api/auth/session 200 in 64ms (next.js: 9ms, proxy.ts: 11ms, application-code: 44ms)
+ GET /api/auth/session 200 in 72ms (next.js: 16ms, proxy.ts: 11ms, application-code: 45ms)
+ GET /api/auth/session 200 in 64ms (next.js: 11ms, proxy.ts: 11ms, application-code: 42ms)
+ GET /api/auth/session 200 in 41ms (next.js: 17ms, proxy.ts: 9ms, application-code: 15ms)
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorCategory`.`id` FROM `DecorCategory` WHERE 1=1) AS `sub`
+prisma:query SELECT `DecorCategory`.`id`, `DecorCategory`.`event_type_id`, `DecorCategory`.`name`, `DecorCategory`.`slug`, `DecorCategory`.`short_description`, `DecorCategory`.`description`, `DecorCategory`.`image_url`, `DecorCategory`.`image_public_id`, `DecorCategory`.`image_alt_text`, `DecorCategory`.`meta_title`, `DecorCategory`.`meta_description`, `DecorCategory`.`sort_order`, `DecorCategory`.`status`, `DecorCategory`.`is_visible`, `DecorCategory`.`created_at`, `DecorCategory`.`updated_at`, COALESCE(`aggr_selection_0_DecorPackage`.`_aggr_count_packages`, 0) AS `_aggr_count_packages` FROM `DecorCategory` LEFT JOIN (SELECT `DecorPackage`.`decor_category_id`, COUNT(*) AS `_aggr_count_packages` FROM `DecorPackage` WHERE 1=1 GROUP BY `DecorPackage`.`decor_category_id`) AS `aggr_selection_0_DecorPackage` ON (`DecorCategory`.`id` = `aggr_selection_0_DecorPackage`.`decor_category_id`) WHERE 1=1 ORDER BY `DecorCategory`.`sort_order` ASC LIMIT ? OFFSET ?
+prisma:query SELECT `EventType`.`id`, `EventType`.`name`, `EventType`.`slug` FROM `EventType` WHERE `EventType`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+ GET /api/decor-categories?page=1&limit=20 200 in 188ms (next.js: 121ms, proxy.ts: 5ms, application-code: 61ms)
+prisma:query SELECT `EventType`.`id`, `EventType`.`name`, `EventType`.`slug`, `EventType`.`short_description`, `EventType`.`description`, `EventType`.`image_url`, `EventType`.`image_public_id`, `EventType`.`image_alt_text`, `EventType`.`meta_title`, `EventType`.`meta_description`, `EventType`.`sort_order`, `EventType`.`status`, `EventType`.`is_visible`, `EventType`.`created_at`, `EventType`.`updated_at`, COALESCE(`aggr_selection_0_DecorCategory`.`_aggr_count_categories`, 0) AS `_aggr_count_categories` FROM `EventType` LEFT JOIN (SELECT `DecorCategory`.`event_type_id`, COUNT(*) AS `_aggr_count_categories` FROM `DecorCategory` WHERE (`DecorCategory`.`is_visible` = ? AND `DecorCategory`.`status` = ?) GROUP BY `DecorCategory`.`event_type_id`) AS `aggr_selection_0_DecorCategory` ON (`EventType`.`id` = `aggr_selection_0_DecorCategory`.`event_type_id`) WHERE 1=1 ORDER BY `EventType`.`sort_order` ASC LIMIT ? OFFSET ?
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `EventType`.`id` FROM `EventType` WHERE 1=1) AS `sub`
+prisma:query SELECT `DecorCategory`.`id`, `DecorCategory`.`name`, `DecorCategory`.`slug`, `DecorCategory`.`event_type_id` FROM `DecorCategory` WHERE ((`DecorCategory`.`is_visible` = ? AND `DecorCategory`.`status` = ?) AND `DecorCategory`.`event_type_id` IN (?,?,?,?,?,?,?,?,?))
+ GET /api/event-types?page=1&limit=20 200 in 99ms (next.js: 62ms, proxy.ts: 6ms, application-code: 31ms)
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DeliveryZone`.`id` FROM `DeliveryZone` WHERE 1=1) AS `sub`
+prisma:query SELECT `DeliveryZone`.`id`, `DeliveryZone`.`name`, `DeliveryZone`.`city`, `DeliveryZone`.`area`, `DeliveryZone`.`delivery_charge`, `DeliveryZone`.`minimum_order_amount`, `DeliveryZone`.`free_delivery_minimum`, `DeliveryZone`.`estimated_min_minutes`, `DeliveryZone`.`estimated_max_minutes`, `DeliveryZone`.`cash_on_delivery_available`, `DeliveryZone`.`is_active`, `DeliveryZone`.`created_at`, `DeliveryZone`.`updated_at` FROM `DeliveryZone` WHERE 1=1 ORDER BY `DeliveryZone`.`created_at` DESC LIMIT ? OFFSET ?
+ GET /api/delivery-zones?page=1&limit=20 200 in 96ms (next.js: 69ms, proxy.ts: 4ms, application-code: 23ms)
+prisma:query SELECT `City`.`id`, `City`.`name`, `City`.`province` FROM `City` WHERE 1=1 ORDER BY `City`.`name` ASC
+ GET /api/cities 200 in 72ms (next.js: 53ms, proxy.ts: 6ms, application-code: 13ms)
+prisma:query SELECT `DecorCategory`.`id`, `DecorCategory`.`event_type_id`, `DecorCategory`.`name`, `DecorCategory`.`slug`, `DecorCategory`.`short_description`, `DecorCategory`.`description`, `DecorCategory`.`image_url`, `DecorCategory`.`image_public_id`, `DecorCategory`.`image_alt_text`, `DecorCategory`.`meta_title`, `DecorCategory`.`meta_description`, `DecorCategory`.`sort_order`, `DecorCategory`.`status`, `DecorCategory`.`is_visible`, `DecorCategory`.`created_at`, `DecorCategory`.`updated_at`, COALESCE(`aggr_selection_0_DecorPackage`.`_aggr_count_packages`, 0) AS `_aggr_count_packages` FROM `DecorCategory` LEFT JOIN (SELECT `DecorPackage`.`decor_category_id`, COUNT(*) AS `_aggr_count_packages` FROM `DecorPackage` WHERE 1=1 GROUP BY `DecorPackage`.`decor_category_id`) AS `aggr_selection_0_DecorPackage` ON (`DecorCategory`.`id` = `aggr_selection_0_DecorPackage`.`decor_category_id`) WHERE 1=1 ORDER BY `DecorCategory`.`sort_order` ASC
+prisma:query SELECT `EventType`.`id`, `EventType`.`name`, `EventType`.`slug` FROM `EventType` WHERE `EventType`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+ GET /api/decor-categories 200 in 21ms (next.js: 3ms, proxy.ts: 4ms, application-code: 14ms)
+prisma:query SELECT `GiftType`.`id`, `GiftType`.`name`, `GiftType`.`slug`, `GiftType`.`description`, `GiftType`.`image_url`, `GiftType`.`image_public_id`, `GiftType`.`image_alt_text`, `GiftType`.`meta_title`, `GiftType`.`meta_description`, `GiftType`.`sort_order`, `GiftType`.`status`, `GiftType`.`is_visible`, `GiftType`.`created_at`, `GiftType`.`updated_at`, COALESCE(`aggr_selection_0_GiftTypeProductCategory`.`_aggr_count_productCategories`, 0) AS `_aggr_count_productCategories` FROM `GiftType` LEFT JOIN (SELECT `gift_type_product_categories`.`gift_type_id`, COUNT(*) AS `_aggr_count_productCategories` FROM `gift_type_product_categories` LEFT JOIN `ProductCategory` AS `j0` ON (`j0`.`id`) = (`gift_type_product_categories`.`product_category_id`) WHERE (`j0`.`is_visible` = ? AND `j0`.`status` = ? AND (`j0`.`id` IS NOT NULL)) GROUP BY `gift_type_product_categories`.`gift_type_id`) AS `aggr_selection_0_GiftTypeProductCategory` ON (`GiftType`.`id` = `aggr_selection_0_GiftTypeProductCategory`.`gift_type_id`) WHERE 1=1 ORDER BY `GiftType`.`sort_order` ASC
+prisma:query SELECT `gift_type_product_categories`.`id`, `gift_type_product_categories`.`gift_type_id`, `gift_type_product_categories`.`product_category_id` FROM `gift_type_product_categories` LEFT JOIN `ProductCategory` AS `j1` ON (`j1`.`id`) = (`gift_type_product_categories`.`product_category_id`) WHERE ((`j1`.`is_visible` = ? AND `j1`.`status` = ? AND (`j1`.`id` IS NOT NULL)) AND `gift_type_product_categories`.`gift_type_id` IN (?,?,?,?,?,?,?,?,?,?))
+prisma:query SELECT `ProductCategory`.`id`, `ProductCategory`.`name`, `ProductCategory`.`slug` FROM `ProductCategory` WHERE `ProductCategory`.`id` IN (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+ GET /api/gift-types 200 in 105ms (next.js: 67ms, proxy.ts: 5ms, application-code: 34ms)
+ GET /api/admin/users 401 in 109ms (next.js: 84ms, proxy.ts: 6ms, application-code: 19ms)
+ POST /api/decor-categories 401 in 37ms (next.js: 4ms, proxy.ts: 7ms, application-code: 26ms)
+ GET /api/auth/providers 200 in 52ms (next.js: 15ms, proxy.ts: 4ms, application-code: 32ms)
+ GET /api/auth/csrf 200 in 41ms (next.js: 8ms, proxy.ts: 4ms, application-code: 28ms)
+prisma:query SELECT `User`.`id`, `User`.`full_name`, `User`.`email`, `User`.`phone`, `User`.`password_hash`, `User`.`role`, `User`.`auth_provider`, `User`.`google_id`, `User`.`email_verified_at`, `User`.`status`, `User`.`last_login_at`, `User`.`created_at`, `User`.`updated_at` FROM `User` WHERE (`User`.`email` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query SELECT `User`.`id` FROM `User` WHERE (`User`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
+prisma:query UPDATE `User` SET `last_login_at` = ?, `updated_at` = ? WHERE (`User`.`id` IN (?) AND (`User`.`id` = ? AND 1=1))
+prisma:query SELECT `User`.`id`, `User`.`full_name`, `User`.`email`, `User`.`phone`, `User`.`password_hash`, `User`.`role`, `User`.`auth_provider`, `User`.`google_id`, `User`.`email_verified_at`, `User`.`status`, `User`.`last_login_at`, `User`.`created_at`, `User`.`updated_at` FROM `User` WHERE `User`.`id` = ? LIMIT ? OFFSET ?
+prisma:query -- Implicit "COMMIT" query via underlying driver
+ POST /api/auth/callback/credentials 200 in 285ms (next.js: 8ms, proxy.ts: 5ms, application-code: 272ms)
+ GET /api/auth/session 200 in 41ms (next.js: 7ms, proxy.ts: 9ms, application-code: 25ms)
+ GET /api/auth/session 200 in 43ms (next.js: 5ms, proxy.ts: 5ms, application-code: 34ms)
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+ GET /api/auth/session 200 in 228ms (next.js: 14ms, proxy.ts: 5ms, application-code: 209ms)
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE `Product`.`stock_quantity` <= `Product`.`low_stock_threshold`) AS `sub`
+prisma:query SELECT SUM(`grand_total`) AS `_sum$grand_total` FROM (SELECT `Order`.`grand_total` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE 1=1) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE `User`.`email_verified_at` IS NOT NULL) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE (`User`.`role` = ? AND `User`.`created_at` >= ?)) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE 1=1) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE `Product`.`stock_quantity` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorBooking`.`id` FROM `DecorBooking` WHERE `DecorBooking`.`booking_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorQuotation`.`id` FROM `DecorQuotation` WHERE `DecorQuotation`.`status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorBooking`.`id` FROM `DecorBooking` WHERE `DecorBooking`.`booking_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `ProductReview`.`id` FROM `ProductReview` WHERE `ProductReview`.`status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Notification`.`id` FROM `Notification` WHERE `Notification`.`status` = ?) AS `sub`
+prisma:query SELECT `Order`.`id`, `Order`.`order_number`, `Order`.`order_status`, `Order`.`grand_total`, `Order`.`created_at`, `Order`.`user_id`, `Order`.`delivery_zone_id` FROM `Order` WHERE 1=1 ORDER BY `Order`.`created_at` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `User`.`id`, `User`.`full_name` FROM `User` WHERE `User`.`id` IN (NULL)
+prisma:query SELECT `DeliveryZone`.`id`, `DeliveryZone`.`name` FROM `DeliveryZone` WHERE `DeliveryZone`.`id` IN (NULL)
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE 1=1) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE `User`.`email_verified_at` IS NOT NULL) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `User`.`id` FROM `User` WHERE (`User`.`role` = ? AND `User`.`created_at` >= ?)) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE 1=1) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE `Product`.`stock_quantity` <= `Product`.`low_stock_threshold`) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Product`.`id` FROM `Product` WHERE `Product`.`stock_quantity` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Order`.`id` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT SUM(`grand_total`) AS `_sum$grand_total` FROM (SELECT `Order`.`grand_total` FROM `Order` WHERE `Order`.`order_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorBooking`.`id` FROM `DecorBooking` WHERE `DecorBooking`.`booking_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorQuotation`.`id` FROM `DecorQuotation` WHERE `DecorQuotation`.`status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `DecorBooking`.`id` FROM `DecorBooking` WHERE `DecorBooking`.`booking_status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `ProductReview`.`id` FROM `ProductReview` WHERE `ProductReview`.`status` = ?) AS `sub`
+prisma:query SELECT COUNT(*) AS `_count$_all` FROM (SELECT `Notification`.`id` FROM `Notification` WHERE `Notification`.`status` = ?) AS `sub`
+prisma:query SELECT `Order`.`id`, `Order`.`order_number`, `Order`.`order_status`, `Order`.`grand_total`, `Order`.`created_at`, `Order`.`user_id`, `Order`.`delivery_zone_id` FROM `Order` WHERE 1=1 ORDER BY `Order`.`created_at` DESC LIMIT ? OFFSET ?
+prisma:query SELECT `User`.`id`, `User`.`full_name` FROM `User` WHERE `User`.`id` IN (NULL)
+prisma:query SELECT `DeliveryZone`.`id`, `DeliveryZone`.`name` FROM `DeliveryZone` WHERE `DeliveryZone`.`id` IN (NULL)
+ GET /admin 200 in 660ms (next.js: 45ms, proxy.ts: 8ms, application-code: 607ms)
+ GET /admin 200 in 378ms (next.js: 10ms, proxy.ts: 157ms, application-code: 210ms)
+ GET /api/auth/session 200 in 40ms (next.js: 16ms, proxy.ts: 5ms, application-code: 19ms)
+ GET /api/auth/session 200 in 43ms (next.js: 6ms, proxy.ts: 11ms, application-code: 25ms)
+ GET /api/auth/session 200 in 53ms (next.js: 19ms, proxy.ts: 8ms, application-code: 26ms)
+ GET /api/auth/session 200 in 53ms (next.js: 6ms, proxy.ts: 7ms, application-code: 39ms)
