@@ -5,14 +5,23 @@ import Link from "next/link";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Package, ArrowLeft, Truck, CreditCard, MapPin, CheckCircle2 } from "lucide-react";
+import { Package, ArrowLeft, Truck, CreditCard, MapPin, CheckCircle2, Star, Send } from "lucide-react";
+
+interface OrderItemReview {
+  id: number;
+  rating: number;
+  description: string;
+  status: string;
+}
 
 interface OrderItem {
   id: number;
+  product_id?: number | null;
   product_name: string;
   quantity: number;
   unit_price: string | number;
   primary_image_url?: string | null;
+  reviews: OrderItemReview[];
 }
 
 interface Order {
@@ -56,6 +65,10 @@ export default function OrderDetailPage() {
   const router = useRouter();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
+  const [reviewRatings, setReviewRatings] = useState<Record<number, number>>({});
+  const [reviewTexts, setReviewTexts] = useState<Record<number, string>>({});
+  const [submittingItem, setSubmittingItem] = useState<number | null>(null);
+  const [reviewMessages, setReviewMessages] = useState<Record<number, { type: "success" | "error"; text: string }>>({});
 
   useEffect(() => {
     if (authStatus === "unauthenticated") {
@@ -85,6 +98,67 @@ export default function OrderDetailPage() {
       cancelled = true;
     };
   }, [authStatus, params.orderNumber]);
+
+  const handleSubmitReview = async (item: OrderItem) => {
+    if (!item.product_id) return;
+
+    const rating = reviewRatings[item.id];
+    const description = (reviewTexts[item.id] || "").trim();
+
+    if (!rating) {
+      setReviewMessages((prev) => ({
+        ...prev,
+        [item.id]: { type: "error", text: "Please select a star rating" },
+      }));
+      return;
+    }
+    if (description.length < 10) {
+      setReviewMessages((prev) => ({
+        ...prev,
+        [item.id]: { type: "error", text: "Please write at least 10 characters" },
+      }));
+      return;
+    }
+
+    setSubmittingItem(item.id);
+    setReviewMessages((prev) => {
+      const next = { ...prev };
+      delete next[item.id];
+      return next;
+    });
+
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ order_item_id: item.id, rating, description }),
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        setReviewMessages((prev) => ({
+          ...prev,
+          [item.id]: { type: "success", text: data.message || "Review submitted successfully!" },
+        }));
+        // Refresh order to reflect the new review
+        const orderRes = await fetch(`/api/orders/${params.orderNumber}`);
+        const orderData = await orderRes.json();
+        if (orderRes.ok) setOrder(orderData.data || null);
+      } else {
+        setReviewMessages((prev) => ({
+          ...prev,
+          [item.id]: { type: "error", text: data.error || "Failed to submit review" },
+        }));
+      }
+    } catch {
+      setReviewMessages((prev) => ({
+        ...prev,
+        [item.id]: { type: "error", text: "An unexpected error occurred" },
+      }));
+    } finally {
+      setSubmittingItem(null);
+    }
+  };
 
   if (authStatus === "loading" || (authStatus === "authenticated" && loading)) {
     return (
@@ -197,6 +271,132 @@ export default function OrderDetailPage() {
                 ))}
               </ul>
             </div>
+
+            {order.order_status === "delivered" && (
+              <div className="bg-bg-card rounded-2xl border border-border-custom overflow-hidden">
+                <div className="px-6 py-4 border-b border-border-custom flex items-center gap-2">
+                  <Star className="w-4 h-4 text-gold-primary" />
+                  <h2 className="font-luxury text-text-primary">Review Your Order</h2>
+                </div>
+                <ul className="divide-y divide-border-custom">
+                  {order.items.map((item) => {
+                    const existingReview = item.reviews?.[0];
+                    const rated = reviewRatings[item.id];
+                    const message = reviewMessages[item.id];
+                    return (
+                      <li key={item.id} className="px-6 py-5">
+                        <div className="flex items-center gap-4 mb-3">
+                          {item.primary_image_url ? (
+                            <span className="relative w-12 h-12 rounded-xl overflow-hidden bg-bg-secondary shrink-0">
+                              <Image
+                                src={item.primary_image_url}
+                                alt={item.product_name}
+                                fill
+                                sizes="48px"
+                                className="object-cover"
+                              />
+                            </span>
+                          ) : (
+                            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-bg-secondary shrink-0">
+                              <Package className="w-5 h-5 text-border-custom" />
+                            </span>
+                          )}
+                          <p className="text-sm font-medium text-text-primary truncate">
+                            {item.product_name}
+                          </p>
+                        </div>
+
+                        {existingReview ? (
+                          <div className="flex items-start gap-2 bg-green-50 border border-green-200 rounded-lg p-4">
+                            <CheckCircle2 className="w-5 h-5 text-green-700 shrink-0 mt-0.5" />
+                            <div>
+                              <p className="text-sm font-medium text-green-800">
+                                {existingReview.status === "pending"
+                                  ? "Review submitted — awaiting approval"
+                                  : "You reviewed this product"}
+                              </p>
+                              <div className="flex items-center gap-1 mt-1">
+                                {[...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    className={`w-4 h-4 ${
+                                      i < existingReview.rating
+                                        ? "fill-gold-primary text-gold-primary"
+                                        : "text-border-custom"
+                                    }`}
+                                  />
+                                ))}
+                              </div>
+                              {existingReview.description && (
+                                <p className="text-sm text-text-secondary mt-1">
+                                  {existingReview.description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        ) : !item.product_id ? (
+                          <p className="text-xs text-text-secondary">This item cannot be reviewed.</p>
+                        ) : (
+                          <div className="space-y-3">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-text-secondary mr-1">Rating:</span>
+                              {[...Array(5)].map((_, star) => (
+                                <button
+                                  key={star}
+                                  type="button"
+                                  onClick={() =>
+                                    setReviewRatings((prev) => ({ ...prev, [item.id]: star + 1 }))
+                                  }
+                                  aria-label={`Rate ${star + 1} star${star + 1 > 1 ? "s" : ""}`}
+                                  className="transition"
+                                >
+                                  <Star
+                                    className={`w-7 h-7 ${
+                                      star + 1 <= (rated || 0)
+                                        ? "fill-gold-primary text-gold-primary"
+                                        : "text-border-custom hover:text-gold-primary"
+                                    }`}
+                                  />
+                                </button>
+                              ))}
+                            </div>
+                            <textarea
+                              value={reviewTexts[item.id] || ""}
+                              onChange={(e) =>
+                                setReviewTexts((prev) => ({ ...prev, [item.id]: e.target.value }))
+                              }
+                              rows={3}
+                              placeholder="Share your feedback about this product..."
+                              className="w-full px-4 py-2 border border-border-custom rounded-lg focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white text-sm text-text-primary"
+                            />
+                            {message && (
+                              <p
+                                className={`text-sm rounded-lg p-2 ${
+                                  message.type === "success"
+                                    ? "bg-green-50 text-green-800 border border-green-200"
+                                    : "bg-red-50 text-red-800 border border-red-200"
+                                }`}
+                              >
+                                {message.text}
+                              </p>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => handleSubmitReview(item)}
+                              disabled={submittingItem === item.id}
+                              className="inline-flex items-center gap-2 px-5 py-2.5 bg-gold-primary text-white text-sm font-medium rounded-lg hover:bg-gold-dark transition disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                              <Send className="w-4 h-4" />
+                              {submittingItem === item.id ? "Submitting..." : "Submit Review"}
+                            </button>
+                          </div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
 
             <div className="bg-bg-card rounded-2xl border border-border-custom p-6">
               <div className="flex items-center gap-2 mb-4">

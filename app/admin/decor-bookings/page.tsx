@@ -10,10 +10,16 @@ interface DecorBooking {
   booking_status: string;
   quoted_amount?: number | string | null;
   final_amount?: number | string | null;
+  package_starting_price?: number | string | null;
   guest_count?: number | null;
   created_at: string;
   user: { full_name: string; email: string; phone?: string | null };
-  decor_package: { id: number; name: string; package_code: string };
+  decor_package: {
+    id: number;
+    name: string;
+    package_code: string;
+    starting_price?: number | string | null;
+  };
   event_type: { id: number; name: string };
 }
 
@@ -221,7 +227,16 @@ export default function AdminDecorBookingsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="text-sm font-medium text-text-primary">
-                        Rs. {Math.round(Number(booking.quoted_amount || booking.final_amount || 0)).toLocaleString()}
+                        Rs.{" "}
+                        {Math.round(
+                          Number(
+                            booking.quoted_amount ||
+                              booking.final_amount ||
+                              booking.package_starting_price ||
+                              booking.decor_package.starting_price ||
+                              0
+                          )
+                        ).toLocaleString()}
                       </span>
                     </td>
                     <td className="px-6 py-4">

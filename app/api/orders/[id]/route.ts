@@ -23,13 +23,26 @@ export async function GET(
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const numericId = parseInt(id);
     const order = await prisma.order.findFirst({
       where: {
-        id: parseInt(id),
         user_id: user.id,
+        OR: [{ order_number: id }, ...(Number.isNaN(numericId) ? [] : [{ id: numericId }])],
       },
       include: {
-        items: true,
+        items: {
+          include: {
+            reviews: {
+              select: {
+                id: true,
+                rating: true,
+                description: true,
+                status: true,
+                created_at: true,
+              },
+            },
+          },
+        },
         delivery_address: true,
         delivery_zone: true,
         payments: true,

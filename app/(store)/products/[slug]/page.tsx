@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useParams } from "next/navigation";
-import { Heart, Star, Share2, Truck, Check } from "lucide-react";
+import { Heart, Star, Share2, Truck, Check, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/components/CartProvider";
 import { useWishlist } from "@/components/WishlistProvider";
@@ -25,6 +25,27 @@ interface Product {
   images: Array<{ id: number; image_url: string; is_primary: boolean }>;
 }
 
+interface ProductReview {
+  id: number;
+  rating: number;
+  description: string;
+  is_verified_purchase: boolean;
+  admin_reply?: string | null;
+  created_at: string;
+  user: { full_name: string | null };
+}
+
+interface ReviewsMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
+  average_rating: number;
+  reviews_count: number;
+}
+
 export default function ProductDetailPage() {
   const params = useParams();
   const { addToCart } = useCart();
@@ -37,6 +58,9 @@ export default function ProductDetailPage() {
   const [selectedImage, setSelectedImage] = useState(0);
   const [addingToCart, setAddingToCart] = useState(false);
   const [cartMessage, setCartMessage] = useState("");
+  const [reviews, setReviews] = useState<ProductReview[]>([]);
+  const [reviewsMeta, setReviewsMeta] = useState<ReviewsMeta | null>(null);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -55,6 +79,41 @@ export default function ProductDetailPage() {
 
     fetchProduct();
   }, [slug]);
+
+  const [reviewsPage, setReviewsPage] = useState(1);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      setReviewsLoading(true);
+      try {
+        const res = await fetch(`/api/products/${slug}/reviews?page=${reviewsPage}&limit=5`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!cancelled) {
+            setReviews(data.data || []);
+            setReviewsMeta(data.meta || null);
+          }
+        }
+      } catch {
+        /* ignore */
+      } finally {
+        if (!cancelled) setReviewsLoading(false);
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [slug, reviewsPage]);
+
+  const changeReviewsPage = (page: number) => {
+    setReviewsPage(page);
+    const section = document.getElementById("reviews");
+    section?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   const handleAddToCart = async () => {
     if (!product) return;
@@ -355,6 +414,119 @@ export default function ProductDetailPage() {
             </div>
           </div>
         )}
+
+        {/* Reviews */}
+        <section id="reviews" className="scroll-mt-24">
+          <div className="bg-bg-card border border-border-custom rounded-lg p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <h2 className="text-2xl font-luxury text-text-primary">Customer Reviews</h2>
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-5 h-5 ${
+                        i < Math.round(reviewsMeta?.average_rating ?? product.average_rating)
+                          ? "fill-gold-primary text-gold-primary"
+                          : "text-border-custom"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-sm text-text-secondary">
+                  {reviewsMeta?.average_rating ?? product.average_rating} out of 5 ·{" "}
+                  {reviewsMeta?.reviews_count ?? product.reviews_count} review
+                  {(reviewsMeta?.reviews_count ?? product.reviews_count) === 1 ? "" : "s"}
+                </span>
+              </div>
+            </div>
+
+            {reviewsLoading ? (
+              <div className="space-y-4">
+                {[...Array(2)].map((_, i) => (
+                  <div key={i} className="h-28 bg-bg-secondary rounded-lg animate-pulse"></div>
+                ))}
+              </div>
+            ) : reviews.length === 0 ? (
+              <div className="text-center py-10">
+                <Star className="w-12 h-12 mx-auto text-border-custom mb-3" />
+                <p className="text-text-secondary">No reviews yet. Be the first to review this product!</p>
+              </div>
+            ) : (
+              <ul className="divide-y divide-border-custom">
+                {reviews.map((review) => (
+                  <li key={review.id} className="py-5">
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-1">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 ${
+                                i < review.rating
+                                  ? "fill-gold-primary text-gold-primary"
+                                  : "text-border-custom"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm font-medium text-text-primary capitalize">
+                          {review.user.full_name || "Verified Customer"}
+                        </span>
+                        {review.is_verified_purchase && (
+                          <span className="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-full px-2 py-0.5">
+                            <BadgeCheck className="w-3.5 h-3.5" />
+                            Verified Purchase
+                          </span>
+                        )}
+                      </div>
+                      <span className="text-xs text-text-secondary">
+                        {new Date(review.created_at).toLocaleDateString(undefined, {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <p className="text-sm text-text-secondary">{review.description}</p>
+                    {review.admin_reply && (
+                      <div className="mt-3 bg-bg-secondary rounded-lg p-4">
+                        <p className="text-xs font-medium text-gold-primary mb-1">
+                          Response from the store
+                        </p>
+                        <p className="text-sm text-text-primary">{review.admin_reply}</p>
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {reviewsMeta && reviewsMeta.totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-6">
+                <button
+                  onClick={() => changeReviewsPage(reviewsMeta.page - 1)}
+                  disabled={!reviewsMeta.hasPrev}
+                  className="p-2 rounded-lg border border-border-custom text-text-primary hover:bg-bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition"
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <span className="text-sm text-text-secondary px-3">
+                  Page {reviewsMeta.page} of {reviewsMeta.totalPages}
+                </span>
+                <button
+                  onClick={() => changeReviewsPage(reviewsMeta.page + 1)}
+                  disabled={!reviewsMeta.hasNext}
+                  className="p-2 rounded-lg border border-border-custom text-text-primary hover:bg-bg-secondary disabled:opacity-40 disabled:cursor-not-allowed transition"
+                  aria-label="Next page"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            )}
+          </div>
+        </section>
       </div>
     </div>
   );

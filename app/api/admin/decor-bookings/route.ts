@@ -49,7 +49,12 @@ export async function GET(req: Request) {
       include: {
         user: { select: { full_name: true, email: true, phone: true } },
         decor_package: {
-          select: { id: true, name: true, package_code: true },
+          select: {
+            id: true,
+            name: true,
+            package_code: true,
+            starting_price: true,
+          },
         },
         event_type: { select: { id: true, name: true } },
         venue_snapshot: true,

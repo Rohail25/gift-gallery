@@ -71,6 +71,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     };
   }, [status]);
 
+  // Refresh the cart badge whenever a "cartUpdated" event fires
+  // (e.g. after checkout or after the cart is cleared)
+  useEffect(() => {
+    function onCartUpdated() {
+      refreshCart();
+    }
+    window.addEventListener("cartUpdated", onCartUpdated);
+    return () => window.removeEventListener("cartUpdated", onCartUpdated);
+  }, [refreshCart]);
+
   const addToCart = useCallback(
     async (productId: number, quantity = 1): Promise<AddToCartResult> => {
       if (status !== "authenticated") {

@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { handleApiError } from "@/lib/utils";
+import { recomputeProductReviewAggregates } from "@/lib/reviews";
 import { Prisma } from "@prisma/client";
 
 const ADMIN_ROLES = ["ADMIN", "SHOP_MANAGER", "DECOR_MANAGER"];
@@ -167,16 +168,26 @@ export async function PUT(req: Request) {
       data.admin_replied_at = admin_reply ? new Date() : null;
     }
 
-    const review =
-      kind === "product"
-        ? await prisma.productReview.update({
-            where: { id: parseInt(id) },
-            data,
-          })
-        : await prisma.decorReview.update({
-            where: { id: parseInt(id) },
-            data,
-          });
+    let review: unknown;
+    let productId: number | null = null;
+
+    if (kind === "product") {
+      const updated = await prisma.productReview.update({
+        where: { id: parseInt(id) },
+        data,
+      });
+      review = updated;
+      productId = updated.product_id;
+    } else {
+      review = await prisma.decorReview.update({
+        where: { id: parseInt(id) },
+        data,
+      });
+    }
+
+    if (productId !== null && data.status) {
+      await recomputeProductReviewAggregates(productId);
+    }
 
     return NextResponse.json({ message: "Review updated", data: review });
   } catch (error) {
@@ -207,15 +218,8 @@ export async function DELETE(req: Request) {
       if (!review) {
         return NextResponse.json({ error: "Review not found" }, { status: 404 });
       }
-      await prisma.$transaction([
-        prisma.product.update({
-          where: { id: review.product_id },
-          data: {
-            reviews_count: { decrement: 1 },
-          },
-        }),
-        prisma.productReview.delete({ where: { id: review.id } }),
-      ]);
+      await prisma.productReview.delete({ where: { id: review.id } });
+      await recomputeProductReviewAggregates(review.product_id);
     } else {
       const review = await prisma.decorReview.findUnique({
         where: { id: parseInt(id) },

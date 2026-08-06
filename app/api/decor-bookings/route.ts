@@ -6,6 +6,36 @@ import { authOptions } from "@/lib/auth";
 import { BookingSchema } from "@/validators/booking";
 import { handleApiError } from "@/lib/utils";
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions);
+    if (!session?.user?.email) return NextResponse.json({ error: "Unauthenticated" }, { status: 401 });
+
+    const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+    const bookings = await prisma.decorBooking.findMany({
+      where: { user_id: user.id },
+      include: {
+        decor_package: { select: { id: true, name: true, slug: true } },
+        event_type: { select: { id: true, name: true } },
+        venue_snapshot: true,
+        quotations: { orderBy: { created_at: "desc" } },
+        payments: { orderBy: { created_at: "desc" } },
+        status_history: {
+          include: { changed_by_user: { select: { full_name: true } } },
+          orderBy: { created_at: "desc" },
+        },
+      },
+      orderBy: { created_at: "desc" },
+    });
+
+    return NextResponse.json({ data: bookings });
+  } catch (err) {
+    return handleApiError(err);
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
