@@ -175,3 +175,16 @@ https://next-auth.js.org/errors#jwt_session_error decryption operation failed {
   name: 'JWEDecryptionFailed'
 }
 [browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Uncaught TypeError: Cannot read properties of undefined (reading 'event_type')
+    at <unknown> (app/admin/decor-packages/page.tsx:158:78)
+    at Array.map (<anonymous>)
+    at AdminDecorPackagesPage (app/admin/decor-packages/page.tsx:132:20)
+  156 |                   <div>
+  157 |                     <h3 className="font-luxury text-lg text-text-primary">{pkg.name}</h3>
+> 158 |                     <p className="text-sm text-text-secondary">{pkg.category.event_type.name} - {pkg.category.name}</p>
+      |                                                                              ^
+  159 |                   </div>
+  160 |                   <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusBadge(pkg.status)}`}>
+  161 |                     {pkg.status}
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] Image with src "/uploads/1786028920636-64566840fbb6.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
