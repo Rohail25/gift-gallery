@@ -234,11 +234,12 @@ export async function POST(req: Request) {
     // Create order in transaction
     const order = await prisma.$transaction(async (tx) => {
       // Create order
+      const orderCount = await tx.order.count();
       const newOrder = await tx.order.create({
         data: {
           user_id: user.id,
           delivery_zone_id: deliveryZone.id,
-          order_number: generateOrderNumber(),
+          order_number: generateOrderNumber(orderCount + 1),
           subtotal,
           delivery_charge: deliveryCharge,
           discount_amount: 0,

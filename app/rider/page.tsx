@@ -73,6 +73,16 @@ export default function RiderDashboardPage() {
     Record<number, { type: "success" | "error"; text: string }>
   >({});
 
+  const refresh = useCallback(async () => {
+    try {
+      const res = await fetch("/api/rider/orders");
+      const data = await res.json();
+      if (res.ok) setAssignments(data.data || []);
+    } catch {
+      // ignore background refresh errors
+    }
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -94,20 +104,14 @@ export default function RiderDashboardPage() {
     }
 
     load();
+    const interval = setInterval(() => {
+      if (!cancelled) refresh();
+    }, 15000);
     return () => {
       cancelled = true;
+      clearInterval(interval);
     };
-  }, []);
-
-  const refresh = useCallback(async () => {
-    try {
-      const res = await fetch("/api/rider/orders");
-      const data = await res.json();
-      if (res.ok) setAssignments(data.data || []);
-    } catch {
-      // ignore background refresh errors
-    }
-  }, []);
+  }, [refresh]);
 
   const handleAccept = async (orderId: number) => {
     setAccepting(orderId);
@@ -233,6 +237,10 @@ export default function RiderDashboardPage() {
           const isCancelled =
             a.status === "cancelled" || a.order.order_status === "cancelled";
           const otpVerified = latestOtp?.verified_at != null;
+          const hasActiveOtp =
+            latestOtp != null &&
+            latestOtp.verified_at == null &&
+            latestOtp.invalidated_at == null;
           const canVerify =
             !isDelivered &&
             !isCancelled &&
@@ -337,6 +345,54 @@ export default function RiderDashboardPage() {
                   <div className="flex items-center gap-2 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm">
                     <XCircle className="w-5 h-5" />
                     Cancelled
+                  </div>
+                ) : hasActiveOtp ? (
+                  <div className="p-4 rounded-lg bg-bg-secondary border border-border-custom">
+                    <p className="text-sm font-medium text-text-primary mb-3">
+                      Confirm Delivery — ask the customer for the 6-digit OTP
+                    </p>
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={6}
+                        value={otps[a.order.id] || ""}
+                        onChange={(e) =>
+                          setOtps((o) => ({
+                            ...o,
+                            [a.order.id]: e.target.value.replace(/\D/g, ""),
+                          }))
+                        }
+                        placeholder="6-digit OTP"
+                        className="w-full sm:w-40 px-4 py-2.5 rounded-lg border border-border-custom text-center tracking-[0.4em] text-lg font-semibold text-text-primary focus:outline-none focus:ring-2 focus:ring-gold-primary bg-white"
+                      />
+                      <Button
+                        type="button"
+                        onClick={() =>
+                          handleVerify(a.order.id, (otps[a.order.id] || "").trim())
+                        }
+                        disabled={
+                          submitting === a.order.id ||
+                          (otps[a.order.id] || "").length !== 6
+                        }
+                        size="lg"
+                      >
+                        {submitting === a.order.id
+                          ? "Verifying..."
+                          : "Confirm Delivery"}
+                      </Button>
+                    </div>
+                    {messages[a.order.id]?.text && (
+                      <p
+                        className={`mt-3 text-sm ${
+                          messages[a.order.id].type === "success"
+                            ? "text-green-700"
+                            : "text-red-600"
+                        }`}
+                      >
+                        {messages[a.order.id].text}
+                      </p>
+                    )}
                   </div>
                 ) : a.status === "assigned" ? (
                   <div className="p-4 rounded-lg bg-bg-secondary border border-border-custom">

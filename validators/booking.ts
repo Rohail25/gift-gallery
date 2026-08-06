@@ -18,7 +18,7 @@ export const BookingSchema = z.object({
   contact_name: z.string().min(2, 'Name is required'),
   contact_phone: z.string().min(7, 'Phone number is invalid'),
   alternative_phone: z.string().optional(),
-  address_line_1: z.string().min(5, 'Address details are too short'),
+  address_line_1: z.string().min(2, 'Address details are too short'),
   address_line_2: z.string().optional(),
   city: z.string().min(2, 'City is required'),
   area: z.string().min(2, 'Area is required'),

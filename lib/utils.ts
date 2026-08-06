@@ -47,12 +47,10 @@ export function formatDateTime(date: Date | string): string {
 }
 
 /**
- * Generate unique order number
+ * Generate sequential order number (e.g. ORD-0001)
  */
-export function generateOrderNumber(): string {
-  const timestamp = Date.now();
-  const random = Math.floor(Math.random() * 1000);
-  return `ORD-${timestamp}${random}`;
+export function generateOrderNumber(seq: number): string {
+  return `ORD-${String(seq).padStart(4, "0")}`;
 }
 
 /**

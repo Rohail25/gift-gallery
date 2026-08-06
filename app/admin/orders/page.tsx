@@ -88,7 +88,13 @@ export default function AdminOrdersPage() {
 
       if (res.ok) {
         const data = await res.json();
-        setOrders(orders.map((o) => (o.id === orderId ? data.data : o)));
+        setOrders(
+          orders.map((o) =>
+            o.id === orderId
+              ? { ...o, order_status: data.data.order_status || newStatus }
+              : o
+          )
+        );
       } else {
         const data = await res.json();
         alert(data.error || "Failed to update status");
@@ -232,8 +238,12 @@ export default function AdminOrdersPage() {
                     </td>
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-text-primary">{order.user.full_name}</p>
-                        <p className="text-sm text-text-secondary">{order.user.email}</p>
+                        <p className="font-medium text-text-primary">
+                          {order.user?.full_name ||
+                            order.delivery_address?.full_name ||
+                            `User #${order.user_id}`}
+                        </p>
+                        <p className="text-sm text-text-secondary">{order.user?.email || ""}</p>
                         {order.delivery_address && (
                           <p className="text-xs text-text-secondary mt-1">
                             {order.delivery_address.city}, {order.delivery_address.area}

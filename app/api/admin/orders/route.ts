@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { handleApiError, generateOrderNumber } from "@/lib/utils";
+import { handleApiError } from "@/lib/utils";
 import { sendMail, emailTemplates } from "@/lib/email";
 import { Prisma, OrderStatus } from "@prisma/client";
 
