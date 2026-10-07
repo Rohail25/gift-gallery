@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
 
 interface Settings {
@@ -62,8 +63,18 @@ export default function ContactPage() {
             We&apos;d Love to <span className="text-gold-primary italic">Hear From You</span>
           </h1>
           <p className="text-text-secondary leading-relaxed">
-            Questions about an order, planning a grand event, or need gift advice? Our team is here
-            to help.
+            <Link href="/orders" className="text-gold-primary hover:text-gold-dark">
+              Questions about an order
+            </Link>
+            , planning a{" "}
+            <Link href="/decor" className="text-gold-primary hover:text-gold-dark">
+              grand event
+            </Link>
+            , or need{" "}
+            <Link href="/shop" className="text-gold-primary hover:text-gold-dark">
+              gift advice
+            </Link>
+            ? Our team is here to help.
           </p>
         </div>
 

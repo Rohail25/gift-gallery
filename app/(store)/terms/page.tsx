@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ScrollText } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions — Gift Gallery",
+  title: "Terms & Conditions | GiftGallery",
   description:
     "The terms and conditions that govern your use of the Gift Gallery website, orders, payments, delivery, returns, and decor bookings.",
 };

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ShieldCheck } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Gift Gallery",
+  title: "Privacy Policy | GiftGallery",
   description:
     "How Gift Gallery collects, uses, and protects your personal information when you shop, sign in, or contact us.",
 };

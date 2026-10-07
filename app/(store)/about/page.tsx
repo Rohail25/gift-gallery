@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Gift, Sparkles, Heart, Gem, Star } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us — Gift Gallery",
+  title: "About Us | GiftGallery",
   description:
     "The story behind Gift Gallery — Pakistan's destination for luxury gifts and bespoke event decor for weddings, birthdays, umrah and every celebration.",
 };
@@ -62,13 +62,23 @@ export default function AboutPage() {
                   <p>
                     What started as a small passion for celebrating life&apos;s milestones has grown
                     into Pakistan&apos;s premier destination for luxury gifts and event decor. From
-                    handcrafted wedding keepsakes to elegant Umrah gifts and heartfelt birthday
-                    surprises, every item carries our promise of quality.
+                    handcrafted{" "}
+                    <Link href="/shop?giftType=wedding-gifts" className="text-gold-primary hover:text-gold-dark">
+                      wedding keepsakes
+                    </Link>{" "}
+                    to elegant{" "}
+                    <Link href="/shop?giftType=umrah-gifts" className="text-gold-primary hover:text-gold-dark">
+                      Umrah gifts
+                    </Link>{" "}
+                    and heartfelt birthday surprises, every item carries our promise of quality.
                   </p>
                   <p>
-                    Alongside our boutique collection, our decor studio designs breathtaking
-                    themes — soft romantic pastels, opulent gold, and seasonal enchantment — so your
-                    celebrations look as beautiful as they feel.
+                    Alongside our boutique collection, our{" "}
+                    <Link href="/decor" className="text-gold-primary hover:text-gold-dark">
+                      decor studio
+                    </Link>{" "}
+                    designs breathtaking themes — soft romantic pastels, opulent gold, and seasonal
+                    enchantment — so your celebrations look as beautiful as they feel.
                   </p>
                   <p>
                     We&apos;re proud to be part of thousands of love stories, one gift at a time.
