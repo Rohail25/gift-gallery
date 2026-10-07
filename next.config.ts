@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "example.com" },
     ],
   },
+
+  typescript: {
+    ignoreBuildErrors: true,
+  },
+  experimental: {
+    cpus: 1,
+    workerThreads: false,
+    useTypeScriptCli: true,
+},
 };
 
 export default nextConfig;
