@@ -15,8 +15,8 @@ const nextConfig: NextConfig = {
   experimental: {
     cpus: 1,
     workerThreads: false,
-    useTypeScriptCli: true,
-},
+    useTypeScriptCli: false,
+  },
 };
 
 export default nextConfig;

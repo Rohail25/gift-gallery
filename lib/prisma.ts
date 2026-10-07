@@ -17,9 +17,6 @@ const adapter = new PrismaMariaDb(
     connectionLimit: 5,
     acquireTimeout: 3000,
     connectTimeout: 3000,
-  },
-  {
-    useTextProtocol: true,
   }
 );
 
