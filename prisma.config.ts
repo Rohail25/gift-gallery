@@ -1,22 +1,13 @@
-import type { NextConfig } from "next";
+import "dotenv/config";
+import { defineConfig } from "prisma/config";
 
-const nextConfig: NextConfig = {
-  images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "img.magnific.com" },
-      { protocol: "https", hostname: "example.com" },
-    ],
+export default defineConfig({
+  schema: "prisma/schema.prisma",
+  migrations: {
+    path: "prisma/migrations",
+    seed: "tsx prisma/seed.ts",
   },
-
-  typescript: {
-    ignoreBuildErrors: true,
+  datasource: {
+    url: process.env.DATABASE_URL!,
   },
-
-  experimental: {
-    cpus: 1,
-    workerThreads: false,
-  },
-};
-
-export default nextConfig;
+});

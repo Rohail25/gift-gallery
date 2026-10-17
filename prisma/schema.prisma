@@ -1,5 +1,8 @@
+// Prisma schema for Gift Gallery project
+// Generated for MySQL provider
+
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 datasource db {
@@ -7,781 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model GiftTypeProductCategory {
-  id                  Int             @id @default(autoincrement())
-  gift_type_id        Int
-  product_category_id Int
-  gift_type           gifttype        @relation(fields: [gift_type_id], references: [id], onDelete: Cascade)
-  product_category    productcategory @relation(fields: [product_category_id], references: [id], onDelete: Cascade)
-
-  @@unique([gift_type_id, product_category_id])
-  @@index([product_category_id])
-  @@map("gift_type_product_categories")
-}
-
-model cart {
-  id         Int        @id @default(autoincrement())
-  user_id    Int
-  session_id String?
-  status     String     @default("active")
-  created_at DateTime   @default(now())
-  updated_at DateTime
-  user       user       @relation(fields: [user_id], references: [id], map: "Cart_user_id_fkey")
-  cartitem   cartitem[]
-
-  @@index([user_id], map: "Cart_user_id_fkey")
-}
-
-model cartitem {
-  id         Int      @id @default(autoincrement())
-  cart_id    Int
-  product_id Int
-  quantity   Int
-  unit_price Decimal  @db.Decimal(10, 2)
-  line_total Decimal  @db.Decimal(10, 2)
-  created_at DateTime @default(now())
-  updated_at DateTime
-  cart       cart     @relation(fields: [cart_id], references: [id], map: "CartItem_cart_id_fkey")
-  product    product  @relation(fields: [product_id], references: [id], map: "CartItem_product_id_fkey")
-
-  @@index([cart_id], map: "CartItem_cart_id_fkey")
-  @@index([product_id], map: "CartItem_product_id_fkey")
-}
-
-model city {
-  id       Int     @id
-  name     String
-  province String?
-}
-
-model customeraddress {
-  id                    Int      @id @default(autoincrement())
-  user_id               Int
-  label                 String?
-  full_name             String
-  phone                 String
-  alternative_phone     String?
-  address_line_1        String
-  address_line_2        String?
-  city                  String
-  area                  String
-  postal_code           String?
-  delivery_instructions String?
-  latitude              Float?
-  longitude             Float?
-  is_default            Boolean  @default(false)
-  is_active             Boolean  @default(true)
-  created_at            DateTime @default(now())
-  updated_at            DateTime
-  user                  user     @relation(fields: [user_id], references: [id], map: "CustomerAddress_user_id_fkey")
-
-  @@index([user_id], map: "CustomerAddress_user_id_fkey")
-}
-
-model decorbooking {
-  id                        Int                          @id @default(autoincrement())
-  user_id                   Int
-  decor_package_id          Int
-  event_type_id             Int
-  booking_number            String                       @unique(map: "DecorBooking_booking_number_key")
-  event_date                DateTime
-  event_start_time          String?
-  event_end_time            String?
-  guest_count               Int?
-  venue_type                String?
-  venue_name                String?
-  theme_preferences         String?
-  customer_notes            String?
-  package_starting_price    Decimal                      @db.Decimal(10, 2)
-  transport_charge          Decimal                      @db.Decimal(10, 2)
-  quoted_amount             Decimal?                     @db.Decimal(10, 2)
-  final_amount              Decimal?                     @db.Decimal(10, 2)
-  booking_status            decorbooking_booking_status  @default(pending)
-  payment_method            decorbooking_payment_method?
-  payment_status            decorbooking_payment_status  @default(pending)
-  created_at                DateTime                     @default(now())
-  updated_at                DateTime
-  decorpackage              decorpackage                 @relation(fields: [decor_package_id], references: [id], map: "DecorBooking_decor_package_id_fkey")
-  eventtype                 eventtype                    @relation(fields: [event_type_id], references: [id], map: "DecorBooking_event_type_id_fkey")
-  user                      user                         @relation(fields: [user_id], references: [id], map: "DecorBooking_user_id_fkey")
-  decorbookingpayment       decorbookingpayment[]
-  decorbookingstatushistory decorbookingstatushistory[]
-  decorbookingvenue         decorbookingvenue?
-  decorquotation            decorquotation[]
-  decorreview               decorreview[]
-  decorteamassignment       decorteamassignment[]
-  notification              notification[]
-
-  @@index([decor_package_id], map: "DecorBooking_decor_package_id_fkey")
-  @@index([event_type_id], map: "DecorBooking_event_type_id_fkey")
-  @@index([user_id], map: "DecorBooking_user_id_fkey")
-}
-
-model decorbookingpayment {
-  id               Int                                @id @default(autoincrement())
-  decor_booking_id Int
-  payment_type     decorbookingpayment_payment_type
-  payment_method   decorbookingpayment_payment_method
-  amount           Decimal                            @db.Decimal(10, 2)
-  currency         String
-  transaction_id   String?
-  status           decorbookingpayment_status         @default(pending)
-  paid_at          DateTime?
-  created_at       DateTime                           @default(now())
-  updated_at       DateTime
-  decorbooking     decorbooking                       @relation(fields: [decor_booking_id], references: [id], map: "DecorBookingPayment_decor_booking_id_fkey")
-
-  @@index([decor_booking_id], map: "DecorBookingPayment_decor_booking_id_fkey")
-}
-
-model decorbookingstatushistory {
-  id                 Int                                       @id @default(autoincrement())
-  decor_booking_id   Int
-  changed_by_user_id Int?
-  previous_status    decorbookingstatushistory_previous_status
-  new_status         decorbookingstatushistory_new_status
-  note               String?
-  created_at         DateTime                                  @default(now())
-  user               user?                                     @relation(fields: [changed_by_user_id], references: [id], map: "DecorBookingStatusHistory_changed_by_user_id_fkey")
-  decorbooking       decorbooking                              @relation(fields: [decor_booking_id], references: [id], map: "DecorBookingStatusHistory_decor_booking_id_fkey")
-
-  @@index([changed_by_user_id], map: "DecorBookingStatusHistory_changed_by_user_id_fkey")
-  @@index([decor_booking_id], map: "DecorBookingStatusHistory_decor_booking_id_fkey")
-}
-
-model decorbookingvenue {
-  id                  Int          @id @default(autoincrement())
-  decor_booking_id    Int          @unique(map: "DecorBookingVenue_decor_booking_id_key")
-  customer_address_id Int?
-  contact_name        String
-  contact_phone       String
-  alternative_phone   String?
-  venue_name          String?
-  address_line_1      String
-  address_line_2      String?
-  city                String
-  area                String
-  postal_code         String?
-  venue_instructions  String?
-  latitude            Float?
-  longitude           Float?
-  created_at          DateTime     @default(now())
-  decorbooking        decorbooking @relation(fields: [decor_booking_id], references: [id], map: "DecorBookingVenue_decor_booking_id_fkey")
-}
-
-model decorcategory {
-  id                Int                  @id @default(autoincrement())
-  event_type_id     Int
-  name              String
-  slug              String               @unique(map: "DecorCategory_slug_key")
-  short_description String?
-  description       String?
-  image_url         String?
-  image_public_id   String?
-  image_alt_text    String?
-  meta_title        String?
-  meta_description  String?
-  sort_order        Int
-  status            decorcategory_status @default(draft)
-  is_visible        Boolean              @default(false)
-  created_at        DateTime             @default(now())
-  updated_at        DateTime
-  eventtype         eventtype            @relation(fields: [event_type_id], references: [id], map: "DecorCategory_event_type_id_fkey")
-  decorpackage      decorpackage[]
-
-  @@index([event_type_id], map: "DecorCategory_event_type_id_fkey")
-}
-
-model decorpackage {
-  id                    Int                 @id @default(autoincrement())
-  decor_category_id     Int
-  name                  String
-  slug                  String              @unique(map: "DecorPackage_slug_key")
-  package_code          String              @unique(map: "DecorPackage_package_code_key")
-  short_description     String?
-  description           String
-  included_items        String              @db.LongText
-  excluded_items        String?             @db.LongText
-  terms_and_conditions  String?
-  starting_price        Decimal             @db.Decimal(10, 2)
-  sale_price            Decimal?            @db.Decimal(10, 2)
-  estimated_setup_hours Int?
-  maximum_guests        Int?
-  service_city          String?
-  average_rating        Float               @default(0)
-  reviews_count         Int                 @default(0)
-  is_featured           Boolean             @default(false)
-  is_visible            Boolean             @default(true)
-  status                decorpackage_status @default(draft)
-  meta_title            String?
-  meta_description      String?
-  created_at            DateTime            @default(now())
-  updated_at            DateTime
-  decorbooking          decorbooking[]
-  decorcategory         decorcategory       @relation(fields: [decor_category_id], references: [id], map: "DecorPackage_decor_category_id_fkey")
-  decorpackageimage     decorpackageimage[]
-  decorreview           decorreview[]
-
-  @@index([decor_category_id], map: "DecorPackage_decor_category_id_fkey")
-}
-
-model decorpackageimage {
-  id               Int          @id @default(autoincrement())
-  decor_package_id Int
-  image_url        String
-  public_id        String?
-  alt_text         String?
-  sort_order       Int
-  is_primary       Boolean      @default(false)
-  is_visible       Boolean      @default(true)
-  created_at       DateTime     @default(now())
-  updated_at       DateTime
-  decorpackage     decorpackage @relation(fields: [decor_package_id], references: [id], map: "DecorPackageImage_decor_package_id_fkey")
-
-  @@index([decor_package_id], map: "DecorPackageImage_decor_package_id_fkey")
-}
-
-model decorquotation {
-  id                 Int                   @id @default(autoincrement())
-  decor_booking_id   Int
-  quotation_number   String                @unique(map: "DecorQuotation_quotation_number_key")
-  package_amount     Decimal               @db.Decimal(10, 2)
-  transport_charge   Decimal               @db.Decimal(10, 2)
-  additional_charge  Decimal               @db.Decimal(10, 2)
-  discount_amount    Decimal               @db.Decimal(10, 2)
-  total_amount       Decimal               @db.Decimal(10, 2)
-  notes              String?
-  valid_until        DateTime?
-  status             decorquotation_status @default(draft)
-  created_by_user_id Int
-  accepted_at        DateTime?
-  rejected_at        DateTime?
-  created_at         DateTime              @default(now())
-  updated_at         DateTime
-  user               user                  @relation(fields: [created_by_user_id], references: [id], map: "DecorQuotation_created_by_user_id_fkey")
-  decorbooking       decorbooking          @relation(fields: [decor_booking_id], references: [id], map: "DecorQuotation_decor_booking_id_fkey")
-
-  @@index([created_by_user_id], map: "DecorQuotation_created_by_user_id_fkey")
-  @@index([decor_booking_id], map: "DecorQuotation_decor_booking_id_fkey")
-}
-
-model decorreview {
-  id                  Int          @id @default(autoincrement())
-  decor_booking_id    Int
-  decor_package_id    Int
-  user_id             Int
-  rating              Int
-  description         String
-  status              String       @default("pending")
-  is_verified_booking Boolean      @default(false)
-  admin_reply         String?
-  admin_replied_at    DateTime?
-  created_at          DateTime     @default(now())
-  updated_at          DateTime
-  decorbooking        decorbooking @relation(fields: [decor_booking_id], references: [id], map: "DecorReview_decor_booking_id_fkey")
-  decorpackage        decorpackage @relation(fields: [decor_package_id], references: [id], map: "DecorReview_decor_package_id_fkey")
-  user                user         @relation(fields: [user_id], references: [id], map: "DecorReview_user_id_fkey")
-
-  @@index([decor_booking_id], map: "DecorReview_decor_booking_id_fkey")
-  @@index([decor_package_id], map: "DecorReview_decor_package_id_fkey")
-  @@index([user_id], map: "DecorReview_user_id_fkey")
-}
-
-model decorteamassignment {
-  id                                                 Int                                   @id @default(autoincrement())
-  decor_booking_id                                   Int
-  assigned_user_id                                   Int
-  assigned_by_user_id                                Int
-  role_name                                          String
-  assignment_status                                  decorteamassignment_assignment_status @default(assigned)
-  assigned_at                                        DateTime                              @default(now())
-  accepted_at                                        DateTime?
-  completed_at                                       DateTime?
-  created_at                                         DateTime                              @default(now())
-  updated_at                                         DateTime
-  user_decorteamassignment_assigned_by_user_idTouser user                                  @relation("decorteamassignment_assigned_by_user_idTouser", fields: [assigned_by_user_id], references: [id], map: "DecorTeamAssignment_assigned_by_user_id_fkey")
-  user_decorteamassignment_assigned_user_idTouser    user                                  @relation("decorteamassignment_assigned_user_idTouser", fields: [assigned_user_id], references: [id], map: "DecorTeamAssignment_assigned_user_id_fkey")
-  decorbooking                                       decorbooking                          @relation(fields: [decor_booking_id], references: [id], map: "DecorTeamAssignment_decor_booking_id_fkey")
-
-  @@index([assigned_by_user_id], map: "DecorTeamAssignment_assigned_by_user_id_fkey")
-  @@index([assigned_user_id], map: "DecorTeamAssignment_assigned_user_id_fkey")
-  @@index([decor_booking_id], map: "DecorTeamAssignment_decor_booking_id_fkey")
-}
-
-model deliveryotp {
-  id             Int       @id @default(autoincrement())
-  order_id       Int
-  user_id        Int
-  otp_hash       String
-  expires_at     DateTime
-  attempt_count  Int       @default(0)
-  verified_at    DateTime?
-  invalidated_at DateTime?
-  created_at     DateTime  @default(now())
-  order          order     @relation(fields: [order_id], references: [id], map: "DeliveryOtp_order_id_fkey")
-  user           user      @relation(fields: [user_id], references: [id], map: "DeliveryOtp_user_id_fkey")
-
-  @@index([order_id], map: "DeliveryOtp_order_id_fkey")
-  @@index([user_id], map: "DeliveryOtp_user_id_fkey")
-}
-
-model deliveryzone {
-  id                         Int      @id @default(autoincrement())
-  name                       String
-  city                       String
-  area                       String
-  delivery_charge            Decimal  @db.Decimal(10, 2)
-  minimum_order_amount       Decimal  @db.Decimal(10, 2)
-  free_delivery_minimum      Decimal? @db.Decimal(10, 2)
-  estimated_min_minutes      Int?
-  estimated_max_minutes      Int?
-  cash_on_delivery_available Boolean  @default(true)
-  is_active                  Boolean  @default(true)
-  created_at                 DateTime @default(now())
-  updated_at                 DateTime
-  order                      order[]
-}
-
-model eventtype {
-  id                Int              @id @default(autoincrement())
-  name              String
-  slug              String           @unique(map: "EventType_slug_key")
-  short_description String?
-  description       String?
-  image_url         String?
-  image_public_id   String?
-  image_alt_text    String?
-  meta_title        String?
-  meta_description  String?
-  sort_order        Int
-  status            eventtype_status @default(draft)
-  is_visible        Boolean          @default(false)
-  created_at        DateTime         @default(now())
-  updated_at        DateTime
-  decorbooking      decorbooking[]
-  decorcategory     decorcategory[]
-}
-
-model gifttype {
-  id                Int                       @id @default(autoincrement())
-  name              String
-  slug              String                    @unique(map: "GiftType_slug_key")
-  description       String?
-  image_url         String?
-  image_public_id   String?
-  image_alt_text    String?
-  meta_title        String?
-  meta_description  String?
-  sort_order        Int
-  status            gifttype_status           @default(draft)
-  is_visible        Boolean                   @default(false)
-  created_at        DateTime                  @default(now())
-  updated_at        DateTime
-  productCategories GiftTypeProductCategory[]
-}
-
-model notification {
-  id               Int                 @id @default(autoincrement())
-  user_id          Int
-  order_id         Int?
-  decor_booking_id Int?
-  type             String
-  channel          String
-  title            String
-  message          String
-  status           notification_status @default(pending)
-  sent_at          DateTime?
-  read_at          DateTime?
-  created_at       DateTime            @default(now())
-  decorbooking     decorbooking?       @relation(fields: [decor_booking_id], references: [id], map: "Notification_decor_booking_id_fkey")
-  order            order?              @relation(fields: [order_id], references: [id], map: "Notification_order_id_fkey")
-  user             user                @relation(fields: [user_id], references: [id], map: "Notification_user_id_fkey")
-
-  @@index([decor_booking_id], map: "Notification_decor_booking_id_fkey")
-  @@index([order_id], map: "Notification_order_id_fkey")
-  @@index([user_id], map: "Notification_user_id_fkey")
-}
-
-model order {
-  id                   Int                    @id @default(autoincrement())
-  user_id              Int
-  delivery_zone_id     Int
-  order_number         String                 @unique(map: "Order_order_number_key")
-  subtotal             Decimal                @db.Decimal(10, 2)
-  delivery_charge      Decimal                @db.Decimal(10, 2)
-  discount_amount      Decimal                @db.Decimal(10, 2)
-  tax_amount           Decimal                @db.Decimal(10, 2)
-  grand_total          Decimal                @db.Decimal(10, 2)
-  payment_method       order_payment_method
-  payment_status       order_payment_status   @default(pending)
-  order_status         order_order_status     @default(pending)
-  customer_note        String?
-  delivery_date        DateTime?
-  delivery_time_slot   String?
-  placed_at            DateTime               @default(now())
-  confirmed_at         DateTime?
-  ready_at             DateTime?
-  picked_up_at         DateTime?
-  delivered_at         DateTime?
-  cancelled_at         DateTime?
-  created_at           DateTime               @default(now())
-  updated_at           DateTime
-  deliveryotp          deliveryotp[]
-  notification         notification[]
-  deliveryzone         deliveryzone           @relation(fields: [delivery_zone_id], references: [id], map: "Order_delivery_zone_id_fkey")
-  user                 user                   @relation(fields: [user_id], references: [id], map: "Order_user_id_fkey")
-  orderdeliveryaddress orderdeliveryaddress?
-  orderitem            orderitem[]
-  orderriderassignment orderriderassignment[]
-  orderstatushistory   orderstatushistory[]
-  payment              payment[]
-
-  @@index([delivery_zone_id], map: "Order_delivery_zone_id_fkey")
-  @@index([user_id], map: "Order_user_id_fkey")
-}
-
-model orderdeliveryaddress {
-  id                    Int      @id @default(autoincrement())
-  order_id              Int      @unique(map: "OrderDeliveryAddress_order_id_key")
-  customer_address_id   Int?
-  full_name             String
-  phone                 String
-  alternative_phone     String?
-  address_line_1        String
-  address_line_2        String?
-  city                  String
-  area                  String
-  postal_code           String?
-  delivery_instructions String?
-  latitude              Float?
-  longitude             Float?
-  created_at            DateTime @default(now())
-  order                 order    @relation(fields: [order_id], references: [id], map: "OrderDeliveryAddress_order_id_fkey")
-}
-
-model orderitem {
-  id                Int             @id @default(autoincrement())
-  order_id          Int
-  product_id        Int?
-  product_name      String
-  product_slug      String?
-  product_sku       String
-  primary_image_url String?
-  unit_price        Decimal         @db.Decimal(10, 2)
-  quantity          Int
-  line_total        Decimal         @db.Decimal(10, 2)
-  created_at        DateTime        @default(now())
-  order             order           @relation(fields: [order_id], references: [id], map: "OrderItem_order_id_fkey")
-  productreview     productreview[]
-
-  @@index([order_id], map: "OrderItem_order_id_fkey")
-}
-
-model orderriderassignment {
-  id                                                  Int       @id @default(autoincrement())
-  order_id                                            Int
-  rider_user_id                                       Int
-  assigned_by_user_id                                 Int
-  status                                              String    @default("assigned")
-  assigned_at                                         DateTime  @default(now())
-  accepted_at                                         DateTime?
-  picked_up_at                                        DateTime?
-  completed_at                                        DateTime?
-  created_at                                          DateTime  @default(now())
-  updated_at                                          DateTime
-  user_orderriderassignment_assigned_by_user_idTouser user      @relation("orderriderassignment_assigned_by_user_idTouser", fields: [assigned_by_user_id], references: [id], map: "OrderRiderAssignment_assigned_by_user_id_fkey")
-  order                                               order     @relation(fields: [order_id], references: [id], map: "OrderRiderAssignment_order_id_fkey")
-  user_orderriderassignment_rider_user_idTouser       user      @relation("orderriderassignment_rider_user_idTouser", fields: [rider_user_id], references: [id], map: "OrderRiderAssignment_rider_user_id_fkey")
-
-  @@index([assigned_by_user_id], map: "OrderRiderAssignment_assigned_by_user_id_fkey")
-  @@index([order_id], map: "OrderRiderAssignment_order_id_fkey")
-  @@index([rider_user_id], map: "OrderRiderAssignment_rider_user_id_fkey")
-}
-
-model orderstatushistory {
-  id                 Int                                @id @default(autoincrement())
-  order_id           Int
-  changed_by_user_id Int?
-  previous_status    orderstatushistory_previous_status
-  new_status         orderstatushistory_new_status
-  note               String?
-  created_at         DateTime                           @default(now())
-  user               user?                              @relation(fields: [changed_by_user_id], references: [id], map: "OrderStatusHistory_changed_by_user_id_fkey")
-  order              order                              @relation(fields: [order_id], references: [id], map: "OrderStatusHistory_order_id_fkey")
-
-  @@index([changed_by_user_id], map: "OrderStatusHistory_changed_by_user_id_fkey")
-  @@index([order_id], map: "OrderStatusHistory_order_id_fkey")
-}
-
-model payment {
-  id               Int                    @id @default(autoincrement())
-  order_id         Int
-  payment_method   payment_payment_method
-  gateway_name     String?
-  transaction_id   String?
-  amount           Decimal                @db.Decimal(10, 2)
-  currency         String
-  status           payment_status         @default(pending)
-  gateway_response String?
-  paid_at          DateTime?
-  created_at       DateTime               @default(now())
-  updated_at       DateTime
-  order            order                  @relation(fields: [order_id], references: [id], map: "Payment_order_id_fkey")
-
-  @@index([order_id], map: "Payment_order_id_fkey")
-}
-
-model product {
-  id                  Int             @id @default(autoincrement())
-  product_category_id Int
-  name                String
-  slug                String          @unique(map: "Product_slug_key")
-  sku                 String          @unique(map: "Product_sku_key")
-  short_description   String?
-  description         String?
-  regular_price       Decimal         @db.Decimal(10, 2)
-  sale_price          Decimal?        @db.Decimal(10, 2)
-  cost_price          Decimal?        @db.Decimal(10, 2)
-  stock_quantity      Int
-  low_stock_threshold Int
-  weight_grams        Int?
-  average_rating      Float           @default(0)
-  reviews_count       Int             @default(0)
-  is_featured         Boolean         @default(false)
-  is_visible          Boolean         @default(true)
-  status              product_status  @default(active)
-  meta_title          String?
-  meta_description    String?
-  created_at          DateTime        @default(now())
-  updated_at          DateTime
-  cartitem            cartitem[]
-  productcategory     productcategory @relation(fields: [product_category_id], references: [id], map: "Product_product_category_id_fkey")
-  productimage        productimage[]
-  productreview       productreview[]
-
-  @@index([product_category_id], map: "Product_product_category_id_fkey")
-}
-
-model productcategory {
-  id               Int                       @id @default(autoincrement())
-  name             String
-  slug             String                    @unique(map: "ProductCategory_slug_key")
-  description      String?
-  image_url        String?
-  image_public_id  String?
-  image_alt_text   String?
-  meta_title       String?
-  meta_description String?
-  sort_order       Int
-  status           productcategory_status    @default(draft)
-  is_visible       Boolean                   @default(false)
-  created_at       DateTime                  @default(now())
-  updated_at       DateTime
-  giftTypes        GiftTypeProductCategory[]
-  product          product[]
-}
-
-model productimage {
-  id         Int      @id @default(autoincrement())
-  product_id Int
-  image_url  String
-  public_id  String?
-  alt_text   String?
-  sort_order Int
-  is_primary Boolean  @default(false)
-  is_visible Boolean  @default(true)
-  created_at DateTime @default(now())
-  updated_at DateTime
-  product    product  @relation(fields: [product_id], references: [id], map: "ProductImage_product_id_fkey")
-
-  @@index([product_id], map: "ProductImage_product_id_fkey")
-}
-
-model productreview {
-  id                   Int       @id @default(autoincrement())
-  product_id           Int
-  user_id              Int
-  order_item_id        Int
-  rating               Int
-  description          String
-  status               String    @default("pending")
-  is_verified_purchase Boolean   @default(false)
-  admin_reply          String?
-  admin_replied_at     DateTime?
-  created_at           DateTime  @default(now())
-  updated_at           DateTime
-  orderitem            orderitem @relation(fields: [order_item_id], references: [id], map: "ProductReview_order_item_id_fkey")
-  product              product   @relation(fields: [product_id], references: [id], map: "ProductReview_product_id_fkey")
-  user                 user      @relation(fields: [user_id], references: [id], map: "ProductReview_user_id_fkey")
-
-  @@index([order_item_id], map: "ProductReview_order_item_id_fkey")
-  @@index([product_id], map: "ProductReview_product_id_fkey")
-  @@index([user_id], map: "ProductReview_user_id_fkey")
-}
-
-model riderprofile {
-  id                  Int      @id @default(autoincrement())
-  user_id             Int      @unique(map: "RiderProfile_user_id_key")
-  vehicle_type        String?
-  vehicle_number      String?
-  availability_status String   @default("available")
-  created_at          DateTime @default(now())
-  updated_at          DateTime
-  user                user     @relation(fields: [user_id], references: [id], map: "RiderProfile_user_id_fkey")
-}
-
-model sitesetting {
-  id         Int      @id @default(autoincrement())
-  key        String   @unique(map: "SiteSetting_key_key")
-  value      String?
-  value_json String?  @db.LongText
-  group      String   @default("general")
-  label      String?
-  is_public  Boolean  @default(false)
-  created_at DateTime @default(now())
-  updated_at DateTime
-}
-
-model user {
-  id                                                                  Int                         @id @default(autoincrement())
-  full_name                                                           String
-  email                                                               String                      @unique(map: "User_email_key")
-  phone                                                               String?
-  password_hash                                                       String?
-  role                                                                user_role                   @default(CUSTOMER)
-  auth_provider                                                       String
-  google_id                                                           String?
-  email_verified_at                                                   DateTime?
-  status                                                              user_status                 @default(active)
-  last_login_at                                                       DateTime?
-  created_at                                                          DateTime                    @default(now())
-  updated_at                                                          DateTime
-  cart                                                                cart[]
-  customeraddress                                                     customeraddress[]
-  decorbooking                                                        decorbooking[]
-  decorbookingstatushistory                                           decorbookingstatushistory[]
-  decorquotation                                                      decorquotation[]
-  decorreview                                                         decorreview[]
-  decorteamassignment_decorteamassignment_assigned_by_user_idTouser   decorteamassignment[]       @relation("decorteamassignment_assigned_by_user_idTouser")
-  decorteamassignment_decorteamassignment_assigned_user_idTouser      decorteamassignment[]       @relation("decorteamassignment_assigned_user_idTouser")
-  deliveryotp                                                         deliveryotp[]
-  notification                                                        notification[]
-  order                                                               order[]
-  orderriderassignment_orderriderassignment_assigned_by_user_idTouser orderriderassignment[]      @relation("orderriderassignment_assigned_by_user_idTouser")
-  orderriderassignment_orderriderassignment_rider_user_idTouser       orderriderassignment[]      @relation("orderriderassignment_rider_user_idTouser")
-  orderstatushistory                                                  orderstatushistory[]
-  productreview                                                       productreview[]
-  riderprofile                                                        riderprofile?
-  verificationotp                                                     verificationotp[]
-}
-
-model verificationotp {
-  id            Int       @id @default(autoincrement())
-  user_id       Int
-  email         String
-  purpose       String
-  otp_hash      String
-  expires_at    DateTime
-  attempt_count Int       @default(0)
-  used_at       DateTime?
-  created_at    DateTime  @default(now())
-  user          user      @relation(fields: [user_id], references: [id], map: "VerificationOtp_user_id_fkey")
-
-  @@index([user_id], map: "VerificationOtp_user_id_fkey")
-}
-
-enum decorbookingpayment_payment_type {
-  advance
-  remaining
-  full
-  refund
-}
-
-enum payment_payment_method {
-  cod
-  stripe
-  paypal
-  jazzcash
-  easypaisa
-  bank_transfer
-}
-
-enum orderstatushistory_previous_status {
-  pending
-  confirmed
-  preparing
-  ready_for_pickup
-  assigned_to_rider
-  picked_up
-  on_the_way
-  delivered
-  cancelled
-  returned
-}
-
-enum decorbookingstatushistory_previous_status {
-  pending
-  under_review
-  site_visit_required
-  site_visit_completed
-  quotation_sent
-  customer_approved
-  confirmed
-  preparation_started
-  team_dispatched
-  setup_in_progress
-  setup_completed
-  event_completed
-  cancelled
-}
-
-enum decorbookingpayment_payment_method {
-  cod
-  stripe
-  paypal
-  jazzcash
-  easypaisa
-  bank_transfer
-}
-
-enum orderstatushistory_new_status {
-  pending
-  confirmed
-  preparing
-  ready_for_pickup
-  assigned_to_rider
-  picked_up
-  on_the_way
-  delivered
-  cancelled
-  returned
-}
-
-enum decorbookingstatushistory_new_status {
-  pending
-  under_review
-  site_visit_required
-  site_visit_completed
-  quotation_sent
-  customer_approved
-  confirmed
-  preparation_started
-  team_dispatched
-  setup_in_progress
-  setup_completed
-  event_completed
-  cancelled
-}
-
-enum decorteamassignment_assignment_status {
-  assigned
-  accepted
-  working
-  completed
-  cancelled
-}
-
-enum user_role {
+enum UserRole {
   CUSTOMER
   ADMIN
   SHOP_MANAGER
@@ -790,82 +19,25 @@ enum user_role {
   DECOR_STAFF
 }
 
-enum decorbookingpayment_status {
-  pending
-  paid
-  failed
-  refunded
-  partially_refunded
-}
-
-enum payment_status {
-  pending
-  paid
-  failed
-  refunded
-  partially_refunded
-}
-
-enum notification_status {
-  pending
-  sent
-  failed
-}
-
-enum user_status {
+enum UserStatus {
   active
   blocked
   suspended
 }
 
-enum order_payment_method {
-  cod
-  stripe
-  paypal
-  jazzcash
-  easypaisa
-  bank_transfer
-}
-
-enum gifttype_status {
+enum GiftTypeStatus {
   draft
   active
   inactive
   archived
 }
 
-enum productcategory_status {
-  draft
-  active
-  inactive
-  archived
+enum Visibility {
+  true
+  false
 }
 
-enum order_payment_status {
-  pending
-  paid
-  failed
-  refunded
-  partially_refunded
-}
-
-enum decorquotation_status {
-  draft
-  sent
-  accepted
-  rejected
-  expired
-  cancelled
-}
-
-enum eventtype_status {
-  draft
-  active
-  inactive
-  archived
-}
-
-enum order_order_status {
+enum OrderStatus {
   pending
   confirmed
   preparing
@@ -878,21 +50,27 @@ enum order_order_status {
   returned
 }
 
-enum decorcategory_status {
-  draft
-  active
-  inactive
-  archived
+enum PaymentStatus {
+  pending
+  paid
+  failed
+  refunded
+  partially_refunded
 }
 
-enum product_status {
-  draft
-  active
-  inactive
-  archived
+enum NotificationStatus {
+  pending
+  sent
+  failed
 }
 
-enum decorbooking_booking_status {
+enum DeliveryOtpStatus {
+  pending
+  verified
+  invalidated
+}
+
+enum BookingStatus {
   pending
   under_review
   site_visit_required
@@ -908,7 +86,31 @@ enum decorbooking_booking_status {
   cancelled
 }
 
-enum decorbooking_payment_method {
+enum QuotationStatus {
+  draft
+  sent
+  accepted
+  rejected
+  expired
+  cancelled
+}
+
+enum AssignmentStatus {
+  assigned
+  accepted
+  working
+  completed
+  cancelled
+}
+
+enum PaymentType {
+  advance
+  remaining
+  full
+  refund
+}
+
+enum PaymentMethod {
   cod
   stripe
   paypal
@@ -917,17 +119,669 @@ enum decorbooking_payment_method {
   bank_transfer
 }
 
-enum decorpackage_status {
-  draft
-  active
-  inactive
-  archived
+model User {
+  id               Int        @id @default(autoincrement())
+  full_name        String
+  email            String     @unique
+  phone            String?
+  password_hash    String?
+  role             UserRole   @default(CUSTOMER)
+  auth_provider    String
+  google_id        String?
+  email_verified_at DateTime?
+  status           UserStatus @default(active)
+  last_login_at    DateTime?
+  created_at       DateTime   @default(now())
+  updated_at       DateTime   @updatedAt
+
+  // relations
+  addresses        CustomerAddress[]
+  verificationOtps VerificationOtp[]
+  deliveryOtps     DeliveryOtp[]
+  orders           Order[]
+  bookings         DecorBooking[]
+  carts            Cart[]
+  productReviews   ProductReview[]
+  notifications    Notification[]
+  orderStatusChanges OrderStatusHistory[] @relation("OrderStatusChangedBy")
+  decorQuotationsCreated DecorQuotation[]
+  teamAssignments  DecorTeamAssignment[] @relation("DecorTeamAssignedUser")
+  teamAssignmentsAssignedBy DecorTeamAssignment[] @relation("DecorTeamAssignedByUser")
+  decorBookingStatusChanges DecorBookingStatusHistory[] @relation("DecorBookingStatusChangedBy")
+  decorReviews     DecorReview[]
+  riderProfile     RiderProfile?
+  riderAssignments OrderRiderAssignment[] @relation("RiderAssignments")
+  riderAssignmentsAssignedBy OrderRiderAssignment[] @relation("RiderAssignmentsBy")
+  @@map("user")
 }
 
-enum decorbooking_payment_status {
-  pending
-  paid
-  failed
-  refunded
-  partially_refunded
+model VerificationOtp {
+  id           Int       @id @default(autoincrement())
+  user         User      @relation(fields: [user_id], references: [id])
+  user_id      Int
+  email        String
+  purpose      String
+  otp_hash     String
+  expires_at   DateTime
+  attempt_count Int      @default(0)
+  used_at      DateTime?
+  created_at   DateTime @default(now())
+  @@map("verificationotp")
 }
+
+model CustomerAddress {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  label             String?
+  full_name         String
+  phone             String
+  alternative_phone String?
+  address_line_1    String
+  address_line_2    String?
+  city              String
+  area              String
+  postal_code       String?
+  delivery_instructions String?
+  latitude          Float?
+  longitude         Float?
+  is_default        Boolean  @default(false)
+  is_active         Boolean  @default(true)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("customeraddress")
+}
+
+model GiftType {
+  id               Int      @id @default(autoincrement())
+  name             String
+  slug             String   @unique
+  description      String?
+  image_url        String?
+  image_public_id  String?
+  image_alt_text   String?
+  meta_title       String?
+  meta_description String?
+  sort_order       Int
+  status           GiftTypeStatus @default(draft)
+  is_visible       Boolean @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  productCategories GiftTypeProductCategory[]
+  @@map("gifttype")
+}
+
+model ProductCategory {
+  id               Int      @id @default(autoincrement())
+  name             String
+  slug             String   @unique
+  description      String?
+  image_url        String?
+  image_public_id  String?
+  image_alt_text   String?
+  meta_title       String?
+  meta_description String?
+  sort_order       Int
+  status           GiftTypeStatus @default(draft)
+  is_visible       Boolean @default(false)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  giftTypes        GiftTypeProductCategory[]
+  products         Product[]
+  @@map("productcategory")
+}
+
+model GiftTypeProductCategory {
+  id                Int             @id @default(autoincrement())
+  gift_type_id      Int
+  product_category_id Int
+  gift_type         GiftType        @relation(fields: [gift_type_id], references: [id], onDelete: Cascade)
+  product_category  ProductCategory @relation(fields: [product_category_id], references: [id], onDelete: Cascade)
+
+  @@unique([gift_type_id, product_category_id])
+  @@index([product_category_id])
+  @@map("gift_type_product_categories")
+}
+
+model Product {
+  id                 Int      @id @default(autoincrement())
+  product_category   ProductCategory @relation(fields: [product_category_id], references: [id])
+  product_category_id Int
+  name               String
+  slug               String   @unique
+  sku                String   @unique
+  short_description  String?
+  description        String?
+  regular_price      Decimal   @db.Decimal(10,2)
+  sale_price         Decimal?  @db.Decimal(10,2)
+  cost_price         Decimal?  @db.Decimal(10,2)
+  stock_quantity     Int
+  low_stock_threshold Int
+  weight_grams       Int?
+  average_rating     Float @default(0)
+  reviews_count      Int   @default(0)
+  is_featured        Boolean @default(false)
+  is_visible         Boolean @default(true)
+  status             GiftTypeStatus @default(active)
+  meta_title         String?
+  meta_description   String?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  images             ProductImage[]
+  reviews            ProductReview[]
+  cartItems          CartItem[]
+  @@map("product")
+}
+
+model ProductImage {
+  id          Int      @id @default(autoincrement())
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  Int
+  image_url   String
+  public_id   String?
+  alt_text    String?
+  sort_order  Int
+  is_primary  Boolean @default(false)
+  is_visible  Boolean @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  @@map("productimage")
+}
+
+model Cart {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(fields: [user_id], references: [id])
+  user_id       Int
+  session_id    String?
+  status        String   @default("active")
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  items         CartItem[]
+  @@map("cart")
+}
+
+model CartItem {
+  id          Int      @id @default(autoincrement())
+  cart        Cart     @relation(fields: [cart_id], references: [id])
+  cart_id     Int
+  product     Product  @relation(fields: [product_id], references: [id])
+  product_id  Int
+  quantity    Int
+  unit_price  Decimal   @db.Decimal(10,2)
+  line_total  Decimal   @db.Decimal(10,2)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  @@map("cartitem")
+}
+
+model DeliveryZone {
+  id                      Int      @id @default(autoincrement())
+  name                    String
+  city                    String
+  area                    String
+  delivery_charge         Decimal   @db.Decimal(10,2)
+  minimum_order_amount   Decimal   @db.Decimal(10,2)
+  free_delivery_minimum  Decimal?  @db.Decimal(10,2)
+  estimated_min_minutes  Int?
+  estimated_max_minutes  Int?
+  cash_on_delivery_available Boolean @default(true)
+  is_active               Boolean @default(true)
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  orders                  Order[]
+  @@map("deliveryzone")
+}
+
+model City {
+  id       Int    @id
+  name     String
+  province String?
+  @@map("city")
+}
+
+model Order {
+  id                 Int      @id @default(autoincrement())
+  user               User     @relation(fields: [user_id], references: [id])
+  user_id            Int
+  delivery_zone      DeliveryZone @relation(fields: [delivery_zone_id], references: [id])
+  delivery_zone_id   Int
+  order_number       String   @unique
+  subtotal           Decimal   @db.Decimal(10,2)
+  delivery_charge    Decimal   @db.Decimal(10,2)
+  discount_amount    Decimal   @db.Decimal(10,2)
+  tax_amount         Decimal   @db.Decimal(10,2)
+  grand_total        Decimal   @db.Decimal(10,2)
+  payment_method     PaymentMethod
+  payment_status     PaymentStatus @default(pending)
+  order_status       OrderStatus   @default(pending)
+  customer_note      String?
+  delivery_date      DateTime?
+  delivery_time_slot String?
+  placed_at          DateTime @default(now())
+  confirmed_at       DateTime?
+  ready_at           DateTime?
+  picked_up_at       DateTime?
+  delivered_at       DateTime?
+  cancelled_at       DateTime?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  items              OrderItem[]
+  delivery_address   OrderDeliveryAddress?
+  payments           Payment[]
+  status_history     OrderStatusHistory[]
+  deliveryOtps       DeliveryOtp[]
+  notifications      Notification[]
+  orderRiderAssignments OrderRiderAssignment[]
+  @@map("order")
+}
+
+model OrderItem {
+  id               Int      @id @default(autoincrement())
+  order            Order    @relation(fields: [order_id], references: [id])
+  order_id         Int
+  product_id       Int?
+  product_name     String
+  product_slug     String?
+  product_sku      String
+  primary_image_url String?
+  unit_price       Decimal   @db.Decimal(10,2)
+  quantity         Int
+  line_total       Decimal   @db.Decimal(10,2)
+  created_at       DateTime @default(now())
+
+  reviews          ProductReview[]
+  @@map("orderitem")
+}
+
+model OrderDeliveryAddress {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int      @unique
+  customer_address_id Int?
+  full_name         String
+  phone             String
+  alternative_phone String?
+  address_line_1    String
+  address_line_2    String?
+  city              String
+  area              String
+  postal_code       String?
+  delivery_instructions String?
+  latitude          Float?
+  longitude         Float?
+  created_at        DateTime @default(now())
+  @@map("orderdeliveryaddress")
+}
+
+model Payment {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  payment_method    PaymentMethod
+  gateway_name      String?
+  transaction_id    String?
+  amount            Decimal   @db.Decimal(10,2)
+  currency          String
+  status            PaymentStatus @default(pending)
+  gateway_response  String?
+  paid_at           DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("payment")
+}
+
+model OrderStatusHistory {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  changed_by_user   User?    @relation("OrderStatusChangedBy", fields: [changed_by_user_id], references: [id])
+  changed_by_user_id Int?
+  previous_status   OrderStatus
+  new_status        OrderStatus
+  note              String?
+  created_at        DateTime @default(now())
+  @@map("orderstatushistory")
+}
+
+model ProductReview {
+  id                Int      @id @default(autoincrement())
+  product           Product  @relation(fields: [product_id], references: [id])
+  product_id        Int
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  order_item        OrderItem @relation(fields: [order_item_id], references: [id])
+  order_item_id     Int
+  rating            Int
+  description       String
+  status            String   @default("pending")
+  is_verified_purchase Boolean @default(false)
+  admin_reply       String?
+  admin_replied_at  DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("productreview")
+}
+
+model Notification {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  order             Order?   @relation(fields: [order_id], references: [id])
+  order_id          Int?
+  decor_booking     DecorBooking? @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int?
+  type              String
+  channel           String
+  title             String
+  message           String
+  status            NotificationStatus @default(pending)
+  sent_at           DateTime?
+  read_at           DateTime?
+  created_at        DateTime @default(now())
+  @@map("notification")
+}
+
+model DeliveryOtp {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  otp_hash          String
+  expires_at        DateTime
+  attempt_count     Int @default(0)
+  verified_at       DateTime?
+  invalidated_at    DateTime?
+  created_at        DateTime @default(now())
+  @@map("deliveryotp")
+}
+
+model RiderProfile {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int      @unique
+  vehicle_type      String?
+  vehicle_number    String?
+  availability_status String @default("available")
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("riderprofile")
+}
+
+model OrderRiderAssignment {
+  id                Int      @id @default(autoincrement())
+  order             Order    @relation(fields: [order_id], references: [id])
+  order_id          Int
+  rider_user        User     @relation("RiderAssignments", fields: [rider_user_id], references: [id])
+  rider_user_id     Int
+  assigned_by_user  User     @relation("RiderAssignmentsBy", fields: [assigned_by_user_id], references: [id])
+  assigned_by_user_id Int
+  status            String   @default("assigned")
+  assigned_at       DateTime @default(now())
+  accepted_at       DateTime?
+  picked_up_at      DateTime?
+  completed_at      DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("orderriderassignment")
+}
+
+model EventType {
+  id                Int      @id @default(autoincrement())
+  name              String
+  slug              String   @unique
+  short_description String?
+  description       String?
+  image_url         String?
+  image_public_id   String?
+  image_alt_text    String?
+  meta_title        String?
+  meta_description  String?
+  sort_order        Int
+  status            GiftTypeStatus @default(draft)
+  is_visible        Boolean @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  categories        DecorCategory[]
+  bookings          DecorBooking[]
+  @@map("eventtype")
+}
+
+model DecorCategory {
+  id                Int      @id @default(autoincrement())
+  event_type        EventType @relation(fields: [event_type_id], references: [id])
+  event_type_id     Int
+  name              String
+  slug              String   @unique
+  short_description String?
+  description       String?
+  image_url         String?
+  image_public_id   String?
+  image_alt_text    String?
+  meta_title        String?
+  meta_description  String?
+  sort_order        Int
+  status            GiftTypeStatus @default(draft)
+  is_visible        Boolean @default(false)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  packages          DecorPackage[]
+  @@map("decorcategory")
+}
+
+model DecorPackage {
+  id                Int      @id @default(autoincrement())
+  decor_category    DecorCategory @relation(fields: [decor_category_id], references: [id])
+  decor_category_id Int
+  name              String
+  slug              String   @unique
+  package_code      String   @unique
+  short_description String?
+  description       String
+  included_items    Json
+  excluded_items    Json?
+  terms_and_conditions String?
+  starting_price    Decimal   @db.Decimal(10,2)
+  sale_price        Decimal?  @db.Decimal(10,2)
+  estimated_setup_hours Int?
+  maximum_guests    Int?
+  service_city      String?
+  average_rating    Float @default(0)
+  reviews_count     Int   @default(0)
+  is_featured       Boolean @default(false)
+  is_visible        Boolean @default(true)
+  status            GiftTypeStatus @default(draft)
+  meta_title        String?
+  meta_description  String?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  images            DecorPackageImage[]
+  bookings          DecorBooking[]
+  reviews           DecorReview[]
+  @@map("decorpackage")
+}
+
+model DecorPackageImage {
+  id               Int      @id @default(autoincrement())
+  decor_package    DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id Int
+  image_url        String
+  public_id        String?
+  alt_text         String?
+  sort_order       Int
+  is_primary       Boolean @default(false)
+  is_visible       Boolean @default(true)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+  @@map("decorpackageimage")
+}
+
+model DecorBooking {
+  id                Int      @id @default(autoincrement())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           Int
+  decor_package     DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id  Int
+  event_type        EventType @relation(fields: [event_type_id], references: [id])
+  event_type_id     Int
+  booking_number    String   @unique
+  event_date        DateTime
+  event_start_time  String?
+  event_end_time    String?
+  guest_count       Int?
+  venue_type        String?
+  venue_name        String?
+  theme_preferences String?
+  customer_notes    String?
+  package_starting_price Decimal @db.Decimal(10,2)
+  transport_charge  Decimal   @db.Decimal(10,2)
+  quoted_amount     Decimal?  @db.Decimal(10,2)
+  final_amount      Decimal?  @db.Decimal(10,2)
+  booking_status    BookingStatus @default(pending)
+  payment_method    PaymentMethod?
+  payment_status    PaymentStatus @default(pending)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  venue_snapshot    DecorBookingVenue?
+  quotations        DecorQuotation[]
+  team_assignments  DecorTeamAssignment[]
+  payments          DecorBookingPayment[]
+  status_history    DecorBookingStatusHistory[]
+  reviews           DecorReview[]
+  notifications     Notification[]
+  @@map("decorbooking")
+}
+
+model DecorBookingVenue {
+  id               Int      @id @default(autoincrement())
+  decor_booking    DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id Int      @unique
+  customer_address_id Int?
+  contact_name     String
+  contact_phone    String
+  alternative_phone String?
+  venue_name       String?
+  address_line_1   String
+  address_line_2   String?
+  city             String
+  area             String
+  postal_code      String?
+  venue_instructions String?
+  latitude         Float?
+  longitude        Float?
+  created_at       DateTime @default(now())
+  @@map("decorbookingvenue")
+}
+
+model DecorQuotation {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  quotation_number  String   @unique
+  package_amount    Decimal   @db.Decimal(10,2)
+  transport_charge  Decimal   @db.Decimal(10,2)
+  additional_charge Decimal   @db.Decimal(10,2)
+  discount_amount   Decimal   @db.Decimal(10,2)
+  total_amount      Decimal   @db.Decimal(10,2)
+  notes             String?
+  valid_until       DateTime?
+  status            QuotationStatus @default(draft)
+  created_by_user   User @relation(fields: [created_by_user_id], references: [id])
+  created_by_user_id Int
+  accepted_at       DateTime?
+  rejected_at       DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("decorquotation")
+}
+
+model DecorTeamAssignment {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  assigned_user     User @relation("DecorTeamAssignedUser", fields: [assigned_user_id], references: [id])
+  assigned_user_id  Int
+  assigned_by_user  User @relation("DecorTeamAssignedByUser", fields: [assigned_by_user_id], references: [id])
+  assigned_by_user_id Int
+  role_name         String
+  assignment_status AssignmentStatus @default(assigned)
+  assigned_at       DateTime @default(now())
+  accepted_at       DateTime?
+  completed_at      DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("decorteamassignment")
+}
+
+model DecorBookingPayment {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  payment_type      PaymentType
+  payment_method    PaymentMethod
+  amount            Decimal   @db.Decimal(10,2)
+  currency          String
+  transaction_id    String?
+  status            PaymentStatus @default(pending)
+  paid_at           DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("decorbookingpayment")
+}
+
+model DecorBookingStatusHistory {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  changed_by_user   User? @relation("DecorBookingStatusChangedBy", fields: [changed_by_user_id], references: [id])
+  changed_by_user_id Int?
+  previous_status   BookingStatus
+  new_status        BookingStatus
+  note              String?
+  created_at        DateTime @default(now())
+  @@map("decorbookingstatushistory")
+}
+
+model DecorReview {
+  id                Int      @id @default(autoincrement())
+  decor_booking     DecorBooking @relation(fields: [decor_booking_id], references: [id])
+  decor_booking_id  Int
+  decor_package     DecorPackage @relation(fields: [decor_package_id], references: [id])
+  decor_package_id  Int
+  user              User @relation(fields: [user_id], references: [id])
+  user_id           Int
+  rating            Int
+  description       String
+  status            String   @default("pending")
+  is_verified_booking Boolean @default(false)
+  admin_reply       String?
+  admin_replied_at  DateTime?
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+  @@map("decorreview")
+}
+
+model SiteSetting {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique
+  value      String?
+  value_json Json?
+  group      String   @default("general")
+  label      String?
+  is_public  Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  @@map("sitesetting")
+}
+
+// Additional enums and models can be added for static pages, homepage sections, SEO, etc.

@@ -12,11 +12,15 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+
   experimental: {
     cpus: 1,
     workerThreads: false,
-    useTypeScriptCli: true,
-},
+    parallelServerBuildTraces: false,
+    parallelServerCompiles: false,
+  },
+
+  output: "standalone",
 };
 
 export default nextConfig;
